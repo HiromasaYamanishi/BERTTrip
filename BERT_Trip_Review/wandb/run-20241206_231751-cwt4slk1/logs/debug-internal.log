@@ -1,0 +1,16 @@
+{"time":"2024-12-06T23:17:52.005920568+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T23:17:52.005933133+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/wandb/run-20241206_231751-cwt4slk1/logs/debug-core.log"}
+{"time":"2024-12-06T23:17:52.115586758+09:00","level":"INFO","msg":"created new stream","id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:52.11564363+09:00","level":"INFO","msg":"stream: started","id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:52.11574505+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:52.115772643+09:00","level":"INFO","msg":"sender: started","stream_id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:52.115839054+09:00","level":"INFO","msg":"handler: started","stream_id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:52.409974259+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T23:17:56.702693847+09:00","level":"INFO","msg":"stream: closing","id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:56.702770962+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T23:17:56.703775907+09:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-12-06T23:17:57.66531417+09:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-12-06T23:17:57.933415006+09:00","level":"INFO","msg":"handler: closed","stream_id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:57.933473637+09:00","level":"INFO","msg":"writer: Close: closed","stream_id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:57.93348813+09:00","level":"INFO","msg":"sender: closed","stream_id":"cwt4slk1"}
+{"time":"2024-12-06T23:17:57.934821972+09:00","level":"INFO","msg":"stream: closed","id":"cwt4slk1"}

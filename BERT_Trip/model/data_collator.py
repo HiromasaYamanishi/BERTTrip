@@ -103,6 +103,7 @@ class DataCollatorForLanguageModeling:
                 del batch['aug_input_ids']
             if 'aug_labels' in batch:
                 del batch['aug_labels']
+        print('call batch', batch.keys())
         return batch
 
     def data_agumentation(self, labels, special_tokens_mask, mln_probability = 0.15):
@@ -125,6 +126,8 @@ class DataCollatorForLanguageModeling:
         config = self.config
         USER_NUM = dataset_metadata[self.dataset]['USER_NUM']
         TIME_NUM = dataset_metadata[self.dataset]['TIME_NUM']
+        # print('tokenizer', self.tokenizer)
+        # print('len tokenizer', len(self.tokenizer))
         TIME_START_INDEX = len(self.tokenizer) - USER_NUM - TIME_NUM
         USER_START_INDEX = TIME_START_INDEX + TIME_NUM
 
@@ -143,12 +146,14 @@ class DataCollatorForLanguageModeling:
         else:
             masked_indices = self.data_agumentation(labels, special_tokens_mask, 0.15)
         labels[~masked_indices] = self.ignore_mask_id
-
+        # print('input', input_types)
+        # print('inputs', labels)
         #input
         is_poi = (input_types == self.poi_type_id)
         indices_replaced = torch.bernoulli(torch.full(labels.shape, 0.8)).bool() & masked_indices & is_poi
         inputs[indices_replaced] = self.tokenizer.convert_tokens_to_ids(self.tokenizer.mask_token)
         indices_random = torch.bernoulli(torch.full(labels.shape, 0.5)).bool() & masked_indices & is_poi & ~indices_replaced
+        #print('random word', TIME_START_INDEX, labels.shape)
         inputs_random_words = torch.randint(TIME_START_INDEX, labels.shape, dtype=torch.long)
         inputs[indices_random] = inputs_random_words[indices_random]
 

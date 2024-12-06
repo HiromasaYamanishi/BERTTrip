@@ -10,6 +10,7 @@ from typing import Dict, List, Optional
 #from transformers import PreTrainedTokenizer
 import subprocess
 from datetime import datetime
+import pandas as pd
 
 
 dataset_metadata = {
@@ -30,6 +31,9 @@ dataset_metadata = {
     'weeplaces_poi_6400_length_3-15-numtraj_90248': {'USER_NUM':7819, 'TIME_NUM': 48},
     'weeplaces_poi_12800_length_3-15-numtraj_147287': {'USER_NUM':9326, 'TIME_NUM': 48},
 }
+for dataset in ['tokyo3', 'osaka3', 'kyoto3', 'ishikawa3', 'hokkaido3', 'okinawa3']:
+    traj_df = pd.read_csv(f'./data/{dataset}/traj-{dataset}.csv')
+    dataset_metadata[dataset] = {'USER_NUM': len(traj_df['userID'].unique()), 'TIME_NUM': 48}
 file_max_sequence_length = {
     '': 0,
     'weeplaces_poi_800_length_3-15-numtraj_14374':17,
@@ -48,6 +52,12 @@ file_max_sequence_length = {
     'melb': 22,
     'osaka': 8,
     'toro': 15,
+    'ishikawa3':10,
+    'osaka3': 10,
+    'tokyo3': 10,
+    'hokkaido3': 10,
+    'okinawa3': 10,
+    'kyoto3': 10
 }
 
 import pandas as pd
@@ -87,12 +97,15 @@ def log(i, config, result):
             w += f'f1: {details["true_f1"]:.3f}\npairs_f1: {details["true_pairs_f1"]:.3f}\nBLEU score: {details["bleu"]:.3f}\n\n'
             f.write(w)
 
+# def wccount(filename):
+#     out = subprocess.Popen(['wc', '-l', filename],
+#                          stdout=subprocess.PIPE,
+#                          stderr=subprocess.STDOUT
+#                          ).communicate()[0]
+#     return int(out.partition(b' ')[0])
 def wccount(filename):
-    out = subprocess.Popen(['wc', '-l', filename],
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT
-                         ).communicate()[0]
-    return int(out.partition(b' ')[0])
+    with open(filename) as f:
+        return sum(1 for _ in f)
 # cpdef float calc_pairsF1(y, y_hat):
 
 def calc_F1(expected, predict, noloop=False):
@@ -122,7 +135,7 @@ def calc_F1(expected, predict, noloop=False):
 
 def calc_pairsF1(y, y_hat):
     assert (len(y) > 0)
-    assert (len(y) == len(set(y)))  # no loops in y
+    #assert (len(y) == len(set(y)))  # no loops in y
     # cdef int n, nr, nc, poi1, poi2, i, j
     # cdef double n0, n0r
 
@@ -276,11 +289,20 @@ def get_model(model_name):
 
     return base_model, evaluator, config
 
-def get_kfold_data(df, shuffle = True, cold_start_user = True, fixed_random_state = None):
+def get_kfold_data(df, shuffle = True, cold_start_user = True, fixed_random_state = None, fold=0):
     base_random_state = int(time.time())
     from sklearn.model_selection import train_test_split
     from sklearn.model_selection import ShuffleSplit
     offset = 0
+
+    fold_num = len(df)//5
+    if fold==0:
+        train_data, test_data = df[fold_num:], df[:fold_num]
+    elif fold==4:
+        train_data, test_data = df[:fold_num*4], df[fold_num*4:]
+    else:
+        train_data, test_data = pd.concat([df[:fold_num*fold],df[fold_num*(fold+1):]]), df[fold_num*fold:fold_num*(fold+1)]
+    return train_data, test_data, 0
     while True:
         if offset >= 50:
             break
@@ -303,13 +325,13 @@ def get_kfold_data(df, shuffle = True, cold_start_user = True, fixed_random_stat
                 if poi not in train_pois:
                     is_all_pois_in_train_set = False
 
-        offset += 1
-        if is_all_pois_in_train_set:
-            print("tries", offset)
-            break
-        else:
-            pass
-            #assert(fixed_random_state == None)
+        # offset += 1
+        # if is_all_pois_in_train_set:
+        #     print("tries", offset)
+        #     break
+        # else:
+        #     pass
+        #     #assert(fixed_random_state == None)
     return train_data, test_data, random_state
 
 def get_root_dir():

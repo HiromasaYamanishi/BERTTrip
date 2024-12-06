@@ -12,10 +12,13 @@ from util import datetime_to_interval
 
 class TripTrainer:
     def __init__(self, model, **kwargs):
+        print('trip planner kwargs', kwargs)
         config = BertTripConfig(
             **kwargs,
         )
+        #print('trip planner config', config)
         self.config = config
+        #print('self config', self.config)
         self.base_model = model
         self.model = self.base_model(config)
         if os.path.isfile(f'{config.pretrained_model_dir}/config.json'):
@@ -40,7 +43,7 @@ class TripTrainer:
         if dataset_file_path == None:
             dataset_file_path = self.config.train_data
         max_sequence_length = self.config.max_position_embeddings
-
+        #print('dataset_file_path', dataset_file_path)
         dataset = LineByLineTextDataset(
             tokenizer = self.poi_tokenizer,
             file_path = dataset_file_path,
@@ -60,7 +63,143 @@ class TripTrainer:
             data_collator = self.data_collator,
             train_dataset = dataset,
         )
+        # print('trainer', trainer)
+        # print('model', self.model)
+        # print('args', training_args)
+        # print('collator', self.data_collator)
+        # print('dataset', dataset)
+        # exit()
         trainer.train()
+        if save_model:
+            trainer.save_model(self.model_dir)
+            
+
+class TripReviewTrainer:
+    def __init__(self, model, **kwargs):
+        print('trip planner kwargs', kwargs)
+        self.config = BertTripConfig(**kwargs)
+        self.base_model = model
+        self.model = self.base_model(self.config)
+        
+        if os.path.isfile(f'{self.config.pretrained_model_dir}/config.json'):
+            self.model = self.model.from_pretrained(self.config.pretrained_model_dir)
+        
+        self.model_dir = self.config.pretrained_model_dir
+        print('No of parameters: ', self.model.num_parameters(), self.config.hidden_size)
+
+        self.poi_tokenizer = BertTokenizer(
+            vocab_file=self.config.poi_vocab_file,
+            do_lower_case=False,
+            do_basic_tokenize=False
+        )
+
+    def reset(self):
+        self.model = self.base_model(self.config)
+
+    def train(self, dataset_file_path=None, epochs=50, batch_size=32, save_steps=5000, save_model=True):
+        """二段階学習のメインメソッド"""
+        if dataset_file_path is None:
+            dataset_file_path = self.config.train_data
+
+        # Step 1: Contrastive Pretraining
+        print("Starting contrastive pretraining...")
+        self._contrastive_pretrain(
+            dataset_file_path,
+            epochs=self.config.pretrain_epochs,
+            batch_size=batch_size
+        )
+
+        # Step 2: Fine-tuning
+        print("Starting fine-tuning...")
+        self._fine_tune(
+            dataset_file_path,
+            epochs=epochs,
+            batch_size=batch_size,
+            save_steps=save_steps,
+            save_model=save_model
+        )
+
+    def _contrastive_pretrain(self, dataset_file_path, epochs, batch_size):
+        """Contrastive learningによるpretraining"""
+        max_sequence_length = self.config.max_position_embeddings
+        
+        # Pretraining用のデータセットを作成
+        pretrain_dataset = ReviewLineByLineDataset(
+            tokenizer=self.poi_tokenizer,
+            file_path=dataset_file_path,
+            block_size=max_sequence_length,
+            config=self.model.config
+        )
+
+        # Pretraining用のデータコレーターを作成
+        pretrain_collator = ReviewDataCollatorForContrastiveLearning(
+            tokenizer=self.poi_tokenizer,
+            config=self.config
+        )
+
+        # Pretraining用のTraining Arguments
+        pretrain_args = TrainingArguments(
+            output_dir='./pretrain_checkpoint',
+            overwrite_output_dir=True,
+            num_train_epochs=epochs,
+            per_device_train_batch_size=batch_size,
+            learning_rate=self.config.pretrain_lr,
+            save_steps=1000,
+            logging_steps=100,
+        )
+
+        # Pretraining用のTrainerを作成
+        pretrain_trainer = ReviewPreTrainer(
+            model=self.model,
+            args=pretrain_args,
+            data_collator=pretrain_collator,
+            train_dataset=pretrain_dataset,
+        )
+
+        # Pretrainingの実行
+        pretrain_trainer.train()
+
+    def _fine_tune(self, dataset_file_path, epochs, batch_size, save_steps, save_model):
+        """Fine-tuning stage"""
+        max_sequence_length = self.config.max_position_embeddings
+        
+        # Fine-tuning用のデータセット
+        dataset = LineByLineTextDataset(
+            tokenizer=self.poi_tokenizer,
+            file_path=dataset_file_path,
+            block_size=max_sequence_length,
+            config=self.model.config,
+        )
+
+        # 通常のMLMデータコレーター
+        self.data_collator = DataCollatorForLanguageModeling(
+            dataset=self.config.dataset,
+            tokenizer=self.poi_tokenizer,
+            mlm=True,
+            mlm_probability=self.config.mlm_probability,
+            config=self.config,
+        )
+
+        # Fine-tuning用のTraining Arguments
+        training_args = TrainingArguments(
+            output_dir='./',
+            overwrite_output_dir=True,
+            num_train_epochs=epochs,
+            per_device_train_batch_size=batch_size,
+            save_steps=save_steps,
+        )
+
+        # Fine-tuning用のTrainer
+        trainer = Trainer(
+            model=self.model,
+            args=training_args,
+            data_collator=self.data_collator,
+            train_dataset=dataset,
+        )
+
+        # Fine-tuningの実行
+        trainer.train()
+        
         if save_model:
             trainer.save_model(self.model_dir)
 

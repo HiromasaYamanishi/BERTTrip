@@ -1,0 +1,94 @@
+
+  0%|                                                                                                               | 0/123 [00:00<?, ?it/s]/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/llava/lib/python3.10/site-packages/transformers/modeling_utils.py:993: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/llava/lib/python3.10/site-packages/torch/nn/parallel/_functions.py:68: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn('Was asked to gather along dimension 0, but all '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████| 123/123 [00:50<00:00,  2.42it/s]
+{'train_runtime': 67.7802, 'train_samples_per_second': 461.344, 'train_steps_per_second': 1.815, 'train_loss': 4.553328847497459, 'epoch': 1.0}
+lines ['user_1|9,57,75|wudzvg,wudzvf,wudzvu|観光施設・名所巡り,観光施設・名所巡り,自然景観・絶景|48,48,48|2,2,2|80,84,88|1732618800,1732622400,1732626000\n', 'user_9|67,9,57,216,71,51,26|wudzyj,wudzvg,wudzvf,wuep2j,wuep01,wudyzp,wuepcn|観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,自然景観・絶景|48,48,48,48,48,48,48|3,3,3,3,3,3,3|12,16,20,24,28,32,36|1732644000,1732647600,1732651200,1732654800,1732658400,1732662000,1732665600\n', 'user_13|93,112,98,102|wudjzk,wudscy,wudnh7,wu3h9u|自然景観・絶景,自然景観・絶景,その他,その他|48,48,48,48|3,3,3,3|16,20,24,28|1732647600,1732651200,1732654800,1732658400\n', 'user_17|146,161,162|wudv1j,wudv1j,wudv0f|自然景観・絶景,神社・神宮・寺院,ショッピング|48,48,48|3,3,3|20,24,28|1732651200,1732654800,1732658400\n', 'user_21|32,35,53|wu277f,wu3j1f,wu2694|観光施設・名所巡り,自然景観・絶景,その他|48,48,48|3,3,3|32,36,40|1732662000,1732665600,1732669200\n']
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 512 / 1563
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 1024 / 1563
+/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/util.py:182: FutureWarning: In the future `np.bool` will be defined as the corresponding NumPy scalar.
+  match_tags = np.zeros(predict_size, dtype=np.bool)
+Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/run.py", line 115, in <module>
+    results.insert_fold_records(model, m.config, random_state, fold, epoch, result, 'one_by_one')
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/tester.py", line 27, in insert_fold_records
+    f1, summary_df, _ = test_result.calc_results()
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/tester.py", line 105, in calc_results
+    df['true_f1_scores'] = df.apply(lambda result: true_f1(result.y_true, result.y_pred), axis=1)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/llava/lib/python3.10/site-packages/pandas/core/frame.py", line 10347, in apply
+    return op.apply().__finalize__(self, method="apply")
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/llava/lib/python3.10/site-packages/pandas/core/apply.py", line 916, in apply
+    return self.apply_standard()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/llava/lib/python3.10/site-packages/pandas/core/apply.py", line 1063, in apply_standard
+    results, res_index = self.apply_series_generator()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/llava/lib/python3.10/site-packages/pandas/core/apply.py", line 1081, in apply_series_generator
+    results[i] = self.func(v, *self.args, **self.kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/tester.py", line 105, in <lambda>
+    df['true_f1_scores'] = df.apply(lambda result: true_f1(result.y_true, result.y_pred), axis=1)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/util.py", line 182, in true_f1
+    match_tags = np.zeros(predict_size, dtype=np.bool)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/llava/lib/python3.10/site-packages/numpy/__init__.py", line 324, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'bool'.
+`np.bool` was a deprecated alias for the builtin `bool`. To avoid this error in existing code, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 1536 / 1563
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])

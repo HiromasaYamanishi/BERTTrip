@@ -55,6 +55,7 @@ from transformers.utils import logging
 
 from transformers.configuration_utils import PretrainedConfig
 from util import wccount, file_max_sequence_length
+from typing import Dict, Any
 
 class BertTripConfig(PretrainedConfig):
     r"""
@@ -152,6 +153,13 @@ class BertTripConfig(PretrainedConfig):
         use_two_trajectory = False,
         **kwargs
     ):
+        #self._original_kwargs = kwargs.copy()
+        self._original_kwargs = {'dataset': dataset, 'mlm_probability': mlm_probability, 
+                                 'model_type': model_type, 'hidden_size': hidden_size, 
+                                 'intermediate_size': intermediate_size, 'num_hidden_layers': num_hidden_layers, 
+                                 'num_attention_heads': num_attention_heads, 'add_user_token': add_user_token, 
+                                 'add_time_token': add_time_token, 'use_data_agumentation': use_data_agumentation}
+        #print('original kwargs', self._original_kwargs)
         super().__init__(pad_token_id=pad_token_id, **kwargs)
         self.vocab_size = vocab_size
         self.hidden_size = hidden_size
@@ -179,7 +187,8 @@ class BertTripConfig(PretrainedConfig):
         self.pretrained_model_config_file = f'{self.pretrained_model_dir}/config.json'
         self.finetuned_model_dir = f'{self.saved_model_dir}/finetuned/{self.dataset}'
         self.finetuned_model_config_file = f'{self.finetuned_model_dir}/config.json'
-
+        print('model type', model_type)
+        print('data dir', self.dataset)
         self.data_dir = f'./data/{self.dataset}'
         self.pretrain_data = f'{self.data_dir}/pretrain_data.csv'
         self.train_data = f'{self.data_dir}/train.csv'
@@ -189,7 +198,7 @@ class BertTripConfig(PretrainedConfig):
         self.data = f'{self.data_dir}/data.csv'
 
         self.poi_vocab_file = f'{self.data_dir}/poi_vocab.txt'
-
+        print('poi vocab file', self.poi_vocab_file)
         self.poi_vocab_size = wccount(self.poi_vocab_file)
         self.residual_type='none'
         self.add_user_token = add_user_token
@@ -209,6 +218,107 @@ class BertTripConfig(PretrainedConfig):
         self.final_result_csv = f'${self.os_path}/result.csv'
         self.mlm_probability = mlm_probability
 
+    def _get_non_default_generation_parameters(self) -> Dict[str, Any]:
+        """
+        Gets the non-default generation parameters on the PretrainedConfig instance
+        """
+        non_default_generation_parameters = {}
+        decoder_attribute_name = None
+
+        # Composite models don't have a default config, use their decoder config as a fallback for default values
+        # If no known pattern is matched, then `default_config = None` -> check against the global generation defaults
+        try:
+            default_config = self.__class__(**self._original_kwargs)
+        except ValueError:
+            decoder_config = self.get_text_config(decoder=True)
+            if decoder_config is not self:
+                default_config = decoder_config.__class__()
+            else:
+                default_config = None
+
+        # If it is a composite model, we want to check the subconfig that will be used for generation
+        self_decoder_config = self if decoder_attribute_name is None else getattr(self, decoder_attribute_name)
+
+        for parameter_name, default_global_value in self._get_global_generation_defaults().items():
+            if hasattr(self_decoder_config, parameter_name):
+                is_default_in_config = is_default_generation_value = None
+                parameter_value = getattr(self_decoder_config, parameter_name)
+                # Three cases in which is okay for the model config to hold generation config parameters:
+                # 1. The parameter is set to `None`, effectivelly delegating its value to the generation config
+                if parameter_value is None:
+                    continue
+                # 2. If we have a default config, then the instance should hold the same generation defaults
+                if default_config is not None:
+                    is_default_in_config = parameter_value == getattr(default_config, parameter_name)
+                # 3. if we don't have a default config, then the instance should hold the global generation defaults
+                else:
+                    is_default_generation_value = parameter_value == default_global_value
+
+                is_non_default = (is_default_in_config is False) or (
+                    is_default_in_config is None and is_default_generation_value is False
+                )
+                if is_non_default:
+                    non_default_generation_parameters[parameter_name] = getattr(self_decoder_config, parameter_name)
+
+        return non_default_generation_parameters
+
+    def to_diff_dict(self) -> Dict[str, Any]:
+        """
+        Removes all attributes from config which correspond to the default config attributes for better readability and
+        serializes to a Python dictionary.
+
+        Returns:
+            `Dict[str, Any]`: Dictionary of all the attributes that make up this configuration instance,
+        """
+        config_dict = self.to_dict()
+
+        # get the default config dict
+        default_config_dict = PretrainedConfig().to_dict()
+
+        # get class specific config dict
+        class_config_dict = self.__class__(**self._original_kwargs).to_dict() if not self.is_composition else {}
+
+        serializable_config_dict = {}
+
+        # only serialize values that differ from the default config
+        for key, value in config_dict.items():
+            if (
+                isinstance(getattr(self, key, None), PretrainedConfig)
+                and key in class_config_dict
+                and isinstance(class_config_dict[key], dict)
+            ):
+                # For nested configs we need to clean the diff recursively
+                diff = recursive_diff_dict(value, class_config_dict[key], config_obj=getattr(self, key, None))
+                if "model_type" in value:
+                    # Needs to be set even if it's not in the diff
+                    diff["model_type"] = value["model_type"]
+                if len(diff) > 0:
+                    serializable_config_dict[key] = diff
+            elif (
+                key not in default_config_dict
+                or key == "transformers_version"
+                or value != default_config_dict[key]
+                or (key in class_config_dict and value != class_config_dict[key])
+            ):
+                serializable_config_dict[key] = value
+
+        if hasattr(self, "quantization_config"):
+            serializable_config_dict["quantization_config"] = (
+                self.quantization_config.to_dict()
+                if not isinstance(self.quantization_config, dict)
+                else self.quantization_config
+            )
+
+            # pop the `_pre_quantization_dtype` as torch.dtypes are not serializable.
+            _ = serializable_config_dict.pop("_pre_quantization_dtype", None)
+
+        self.dict_torch_dtype_to_str(serializable_config_dict)
+
+        if "_attn_implementation_internal" in serializable_config_dict:
+            del serializable_config_dict["_attn_implementation_internal"]
+
+        return serializable_config_dict
+    
 logger = logging.get_logger(__name__)
 
 _CHECKPOINT_FOR_DOC = "bert-base-uncased"
@@ -779,6 +889,22 @@ class BertPooler(nn.Module):
         return pooled_output
 
 
+class BertCombinePredictionHeadTransform(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.dense = nn.Linear(config.hidden_size*2, config.hidden_size)
+        if isinstance(config.hidden_act, str):
+            self.transform_act_fn = ACT2FN[config.hidden_act]
+        else:
+            self.transform_act_fn = config.hidden_act
+        self.LayerNorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
+
+    def forward(self, hidden_states):
+        hidden_states = self.dense(hidden_states)
+        hidden_states = self.transform_act_fn(hidden_states)
+        hidden_states = self.LayerNorm(hidden_states)
+        return hidden_states
+    
 class BertPredictionHeadTransform(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -814,12 +940,58 @@ class BertLMPredictionHead(nn.Module):
         hidden_states = self.transform(hidden_states)
         hidden_states = self.decoder(hidden_states)
         return hidden_states
+    
+class BertLMCombinePredictionHead(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.transform = BertCombinePredictionHeadTransform(config)
 
+        # The output weights are the same as the input embeddings, but there is
+        # an output-only bias for each token.
+        self.decoder = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
+
+        self.bias = nn.Parameter(torch.zeros(config.vocab_size))
+
+        # Need a link between the two variables so that the bias is correctly resized with `resize_token_embeddings`
+        self.decoder.bias = self.bias
+
+    def forward(self, hidden_states):
+        hidden_states = self.transform(hidden_states)
+        hidden_states = self.decoder(hidden_states)
+        return hidden_states
+
+class BertLMCombinePredictionHead(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.transform = BertCombinePredictionHeadTransform(config)
+
+        # The output weights are the same as the input embeddings, but there is
+        # an output-only bias for each token.
+        self.decoder = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
+
+        self.bias = nn.Parameter(torch.zeros(config.vocab_size))
+
+        # Need a link between the two variables so that the bias is correctly resized with `resize_token_embeddings`
+        self.decoder.bias = self.bias
+
+    def forward(self, hidden_states):
+        hidden_states = self.transform(hidden_states)
+        hidden_states = self.decoder(hidden_states)
+        return hidden_states
 
 class BertOnlyMLMHead(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.predictions = BertLMPredictionHead(config)
+
+    def forward(self, sequence_output):
+        prediction_scores = self.predictions(sequence_output)
+        return prediction_scores
+    
+class BertOnlyCombineMLMHead(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.predictions = BertLMCombinePredictionHead(config)
 
     def forward(self, sequence_output):
         prediction_scores = self.predictions(sequence_output)

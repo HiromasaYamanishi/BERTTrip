@@ -1,0 +1,247 @@
+  0%|                                                                                                               | 0/123 [00:00<?, ?it/s]/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/modeling_utils.py:1161: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/parallel/_functions.py:71: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████| 123/123 [00:36<00:00,  3.33it/s]
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+{'train_runtime': 44.7069, 'train_samples_per_second': 699.444, 'train_steps_per_second': 2.751, 'train_loss': 4.572321201727642, 'epoch': 1.0}
+lines ['user_1|9,57,75|wudzvg,wudzvf,wudzvu|観光施設・名所巡り,観光施設・名所巡り,自然景観・絶景|48,48,48|2,2,2|80,84,88|1732618800,1732622400,1732626000\n', 'user_9|67,9,57,216,71,51,26|wudzyj,wudzvg,wudzvf,wuep2j,wuep01,wudyzp,wuepcn|観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,自然景観・絶景|48,48,48,48,48,48,48|3,3,3,3,3,3,3|12,16,20,24,28,32,36|1732644000,1732647600,1732651200,1732654800,1732658400,1732662000,1732665600\n', 'user_13|93,112,98,102|wudjzk,wudscy,wudnh7,wu3h9u|自然景観・絶景,自然景観・絶景,その他,その他|48,48,48,48|3,3,3,3|16,20,24,28|1732647600,1732651200,1732654800,1732658400\n', 'user_17|146,161,162|wudv1j,wudv1j,wudv0f|自然景観・絶景,神社・神宮・寺院,ショッピング|48,48,48|3,3,3|20,24,28|1732651200,1732654800,1732658400\n', 'user_21|32,35,53|wu277f,wu3j1f,wu2694|観光施設・名所巡り,自然景観・絶景,その他|48,48,48|3,3,3|32,36,40|1732662000,1732665600,1732669200\n']
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/modeling_utils.py:1161: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 512 / 1563
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 1024 / 1563
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 1536 / 1563
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+model: bert_trip | random_state: 0 | hidden_size: 768 | num_hidden_layers 8 | num_attention_heads 8
+fold: 0 | epoch: 0 | strategy: one_by_one
+best_f1: 0.131 (epoch = 0)
+  length  true_f1_scores  true_pairs_f1_scores  bleu_scores  incorrect_f1_scores  incorrect_pairs_f1_scores  count
+0   4.47        0.130827              0.061570     0.076129             0.548614                   0.312665   1563
+0      3        0.167756              0.167756     0.167756             0.722585                   0.464779    459
+1      4        0.138480              0.014706     0.060524             0.569240                   0.319853    408
+2      5        0.106106              0.016016     0.030407             0.463664                   0.218919    333
+3      6        0.095905              0.019397     0.019986             0.397270                   0.193391    232
+4      7        0.102290              0.025954     0.019338             0.358779                   0.206834    131
+
+---------------------------------------------------
+#0 one_by_one : bert_trip       = best_f1: 0.131
+---------------------------------------------------
+  0%|                                                                                                               | 0/123 [00:00<?, ?it/s]/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/modeling_utils.py:1161: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/parallel/_functions.py:71: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████| 123/123 [00:35<00:00,  3.47it/s]
+
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+{'train_runtime': 35.4663, 'train_samples_per_second': 881.681, 'train_steps_per_second': 3.468, 'train_loss': 3.064620847624492, 'epoch': 1.0}
+lines ['user_1|9,57,75|wudzvg,wudzvf,wudzvu|観光施設・名所巡り,観光施設・名所巡り,自然景観・絶景|48,48,48|2,2,2|80,84,88|1732618800,1732622400,1732626000\n', 'user_9|67,9,57,216,71,51,26|wudzyj,wudzvg,wudzvf,wuep2j,wuep01,wudyzp,wuepcn|観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,自然景観・絶景|48,48,48,48,48,48,48|3,3,3,3,3,3,3|12,16,20,24,28,32,36|1732644000,1732647600,1732651200,1732654800,1732658400,1732662000,1732665600\n', 'user_13|93,112,98,102|wudjzk,wudscy,wudnh7,wu3h9u|自然景観・絶景,自然景観・絶景,その他,その他|48,48,48,48|3,3,3,3|16,20,24,28|1732647600,1732651200,1732654800,1732658400\n', 'user_17|146,161,162|wudv1j,wudv1j,wudv0f|自然景観・絶景,神社・神宮・寺院,ショッピング|48,48,48|3,3,3|20,24,28|1732651200,1732654800,1732658400\n', 'user_21|32,35,53|wu277f,wu3j1f,wu2694|観光施設・名所巡り,自然景観・絶景,その他|48,48,48|3,3,3|32,36,40|1732662000,1732665600,1732669200\n']
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/modeling_utils.py:1161: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 512 / 1563
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 1024 / 1563
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 1536 / 1563
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+model: bert_trip | random_state: 0 | hidden_size: 768 | num_hidden_layers 8 | num_attention_heads 8
+fold: 0 | epoch: 1 | strategy: one_by_one
+best_f1: 0.198 (epoch = 1)
+  length  true_f1_scores  true_pairs_f1_scores  bleu_scores  incorrect_f1_scores  incorrect_pairs_f1_scores  count
+0   4.47        0.197729              0.092280     0.113906             0.583431                   0.336471   1563
+0      3        0.233115              0.233115     0.233115             0.744372                   0.491649    459
+1      4        0.192402              0.036765     0.093911             0.596201                   0.320261    408
+2      5        0.195195              0.033033     0.061226             0.517117                   0.266066    333
+3      6        0.162716              0.029454     0.035782             0.441810                   0.221552    232
+4      7        0.158779              0.033588     0.030755             0.399128                   0.225736    131
+
+---------------------------------------------------
+#0 one_by_one : bert_trip       = best_f1: 0.198
+---------------------------------------------------
+  0%|                                                                                                               | 0/123 [00:00<?, ?it/s]/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/modeling_utils.py:1161: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/parallel/_functions.py:71: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn(
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████| 123/123 [00:34<00:00,  3.60it/s]
+
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+model type bert_trip
+data dir okinawa3
+poi vocab file ./data/okinawa3/poi_vocab.txt
+{'train_runtime': 34.1275, 'train_samples_per_second': 916.271, 'train_steps_per_second': 3.604, 'train_loss': 2.6899848255684704, 'epoch': 1.0}
+lines ['user_1|9,57,75|wudzvg,wudzvf,wudzvu|観光施設・名所巡り,観光施設・名所巡り,自然景観・絶景|48,48,48|2,2,2|80,84,88|1732618800,1732622400,1732626000\n', 'user_9|67,9,57,216,71,51,26|wudzyj,wudzvg,wudzvf,wuep2j,wuep01,wudyzp,wuepcn|観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,観光施設・名所巡り,自然景観・絶景|48,48,48,48,48,48,48|3,3,3,3,3,3,3|12,16,20,24,28,32,36|1732644000,1732647600,1732651200,1732654800,1732658400,1732662000,1732665600\n', 'user_13|93,112,98,102|wudjzk,wudscy,wudnh7,wu3h9u|自然景観・絶景,自然景観・絶景,その他,その他|48,48,48,48|3,3,3,3|16,20,24,28|1732647600,1732651200,1732654800,1732658400\n', 'user_17|146,161,162|wudv1j,wudv1j,wudv0f|自然景観・絶景,神社・神宮・寺院,ショッピング|48,48,48|3,3,3|20,24,28|1732651200,1732654800,1732658400\n', 'user_21|32,35,53|wu277f,wu3j1f,wu2694|観光施設・名所巡り,自然景観・絶景,その他|48,48,48|3,3,3|32,36,40|1732662000,1732665600,1732669200\n']
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/modeling_utils.py:1161: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 512 / 1563
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 1024 / 1563
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+input_ids torch.Size([512, 13])
+attention_mask torch.Size([512, 13])
+Progress: 1536 / 1563
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+input_ids torch.Size([27, 13])
+attention_mask torch.Size([27, 13])
+model: bert_trip | random_state: 0 | hidden_size: 768 | num_hidden_layers 8 | num_attention_heads 8
+fold: 0 | epoch: 2 | strategy: one_by_one
+best_f1: 0.226 (epoch = 2)
+  length  true_f1_scores  true_pairs_f1_scores  bleu_scores  incorrect_f1_scores  incorrect_pairs_f1_scores  count
+0   4.47        0.225698              0.108168     0.131458             0.597729                   0.356409   1563
+0      3        0.257081              0.257081     0.257081             0.752360                   0.504720    459
+1      4        0.236520              0.053922     0.120037             0.618260                   0.355392    408
+2      5        0.209209              0.041041     0.071537             0.525526                   0.273874    333
+3      6        0.189655              0.040948     0.043139             0.459770                   0.253736    232
+4      7        0.187786              0.045038     0.035597             0.419847                   0.231552    131
+
+---------------------------------------------------
+#0 one_by_one : bert_trip       = best_f1: 0.226
+---------------------------------------------------
+Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/run.py", line 113, in <module>
+    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/pretrain.py", line 47, in train
+    dataset = LineByLineTextDataset(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/pretrain.py", line 95, in __init__
+    inputs = self.aug(user_id, trajectory_list, times)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/pretrain.py", line 117, in aug
+    new_length = np.random.randint(3, length + 1)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/run.py", line 113, in <module>
+    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/pretrain.py", line 47, in train
+    dataset = LineByLineTextDataset(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/pretrain.py", line 95, in __init__
+    inputs = self.aug(user_id, trajectory_list, times)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/model/pretrain.py", line 117, in aug
+    new_length = np.random.randint(3, length + 1)
+KeyboardInterrupt

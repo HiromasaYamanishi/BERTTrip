@@ -1,0 +1,11 @@
+{"time":"2024-12-06T22:34:22.836438593+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T22:34:22.836461424+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/wandb/run-20241206_223422-2g4xemp0/logs/debug-core.log"}
+{"time":"2024-12-06T22:34:22.949811754+09:00","level":"INFO","msg":"created new stream","id":"2g4xemp0"}
+{"time":"2024-12-06T22:34:22.949852828+09:00","level":"INFO","msg":"stream: started","id":"2g4xemp0"}
+{"time":"2024-12-06T22:34:22.949891463+09:00","level":"INFO","msg":"handler: started","stream_id":"2g4xemp0"}
+{"time":"2024-12-06T22:34:22.949883954+09:00","level":"INFO","msg":"sender: started","stream_id":"2g4xemp0"}
+{"time":"2024-12-06T22:34:22.949883062+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"2g4xemp0"}
+{"time":"2024-12-06T22:34:23.267745247+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T22:34:44.892412492+09:00","level":"INFO","msg":"stream: closing","id":"2g4xemp0"}
+{"time":"2024-12-06T22:34:44.892516548+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T22:34:44.893411203+09:00","level":"INFO","msg":"Stopped system monitor"}

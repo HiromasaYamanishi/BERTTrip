@@ -1,0 +1,11 @@
+{"time":"2024-12-06T22:04:09.605123211+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T22:04:09.605138343+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/wandb/run-20241206_220409-4dh6g65p/logs/debug-core.log"}
+{"time":"2024-12-06T22:04:09.721343507+09:00","level":"INFO","msg":"created new stream","id":"4dh6g65p"}
+{"time":"2024-12-06T22:04:09.721394925+09:00","level":"INFO","msg":"stream: started","id":"4dh6g65p"}
+{"time":"2024-12-06T22:04:09.721423748+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"4dh6g65p"}
+{"time":"2024-12-06T22:04:09.721437331+09:00","level":"INFO","msg":"sender: started","stream_id":"4dh6g65p"}
+{"time":"2024-12-06T22:04:09.721456641+09:00","level":"INFO","msg":"handler: started","stream_id":"4dh6g65p"}
+{"time":"2024-12-06T22:04:10.013118151+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T22:04:23.206190666+09:00","level":"INFO","msg":"stream: closing","id":"4dh6g65p"}
+{"time":"2024-12-06T22:04:23.206269475+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T22:04:23.207132161+09:00","level":"INFO","msg":"Stopped system monitor"}

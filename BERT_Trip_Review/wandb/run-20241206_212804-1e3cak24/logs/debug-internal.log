@@ -1,0 +1,16 @@
+{"time":"2024-12-06T21:28:04.465016379+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T21:28:04.465030122+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/wandb/run-20241206_212804-1e3cak24/logs/debug-core.log"}
+{"time":"2024-12-06T21:28:04.58035513+09:00","level":"INFO","msg":"created new stream","id":"1e3cak24"}
+{"time":"2024-12-06T21:28:04.580391796+09:00","level":"INFO","msg":"stream: started","id":"1e3cak24"}
+{"time":"2024-12-06T21:28:04.580426176+09:00","level":"INFO","msg":"sender: started","stream_id":"1e3cak24"}
+{"time":"2024-12-06T21:28:04.580430788+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"1e3cak24"}
+{"time":"2024-12-06T21:28:04.580521608+09:00","level":"INFO","msg":"handler: started","stream_id":"1e3cak24"}
+{"time":"2024-12-06T21:28:04.829750175+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T21:28:05.093760777+09:00","level":"INFO","msg":"stream: closing","id":"1e3cak24"}
+{"time":"2024-12-06T21:28:05.093811726+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T21:28:05.094523405+09:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-12-06T21:28:06.164375374+09:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-12-06T21:28:06.388341083+09:00","level":"INFO","msg":"handler: closed","stream_id":"1e3cak24"}
+{"time":"2024-12-06T21:28:06.388380001+09:00","level":"INFO","msg":"writer: Close: closed","stream_id":"1e3cak24"}
+{"time":"2024-12-06T21:28:06.38841164+09:00","level":"INFO","msg":"sender: closed","stream_id":"1e3cak24"}
+{"time":"2024-12-06T21:28:06.389228213+09:00","level":"INFO","msg":"stream: closed","id":"1e3cak24"}

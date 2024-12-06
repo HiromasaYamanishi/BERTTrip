@@ -1,0 +1,16 @@
+{"time":"2024-12-06T23:20:44.12627391+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T23:20:44.126284611+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/wandb/run-20241206_232043-zeegt2vk/logs/debug-core.log"}
+{"time":"2024-12-06T23:20:44.240864755+09:00","level":"INFO","msg":"created new stream","id":"zeegt2vk"}
+{"time":"2024-12-06T23:20:44.240994122+09:00","level":"INFO","msg":"stream: started","id":"zeegt2vk"}
+{"time":"2024-12-06T23:20:44.241037623+09:00","level":"INFO","msg":"handler: started","stream_id":"zeegt2vk"}
+{"time":"2024-12-06T23:20:44.241091947+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"zeegt2vk"}
+{"time":"2024-12-06T23:20:44.241201251+09:00","level":"INFO","msg":"sender: started","stream_id":"zeegt2vk"}
+{"time":"2024-12-06T23:20:44.570142482+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T23:22:26.314423104+09:00","level":"INFO","msg":"stream: closing","id":"zeegt2vk"}
+{"time":"2024-12-06T23:22:26.317153276+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T23:22:26.318194511+09:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-12-06T23:22:28.184137499+09:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-12-06T23:22:28.472963774+09:00","level":"INFO","msg":"handler: closed","stream_id":"zeegt2vk"}
+{"time":"2024-12-06T23:22:28.473040546+09:00","level":"INFO","msg":"writer: Close: closed","stream_id":"zeegt2vk"}
+{"time":"2024-12-06T23:22:28.473064764+09:00","level":"INFO","msg":"sender: closed","stream_id":"zeegt2vk"}
+{"time":"2024-12-06T23:22:28.473937586+09:00","level":"INFO","msg":"stream: closed","id":"zeegt2vk"}

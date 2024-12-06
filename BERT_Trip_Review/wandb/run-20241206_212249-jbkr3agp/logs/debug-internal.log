@@ -1,0 +1,16 @@
+{"time":"2024-12-06T21:22:49.255324228+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T21:22:49.255335801+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/wandb/run-20241206_212249-jbkr3agp/logs/debug-core.log"}
+{"time":"2024-12-06T21:22:49.368098821+09:00","level":"INFO","msg":"created new stream","id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:49.368140723+09:00","level":"INFO","msg":"stream: started","id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:49.368220342+09:00","level":"INFO","msg":"sender: started","stream_id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:49.368210109+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:49.368246885+09:00","level":"INFO","msg":"handler: started","stream_id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:49.649410036+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T21:22:49.889404044+09:00","level":"INFO","msg":"stream: closing","id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:49.889476979+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T21:22:49.890287153+09:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-12-06T21:22:51.358693881+09:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-12-06T21:22:51.591797555+09:00","level":"INFO","msg":"handler: closed","stream_id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:51.59186197+09:00","level":"INFO","msg":"writer: Close: closed","stream_id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:51.5918847+09:00","level":"INFO","msg":"sender: closed","stream_id":"jbkr3agp"}
+{"time":"2024-12-06T21:22:51.592629746+09:00","level":"INFO","msg":"stream: closed","id":"jbkr3agp"}

@@ -1,0 +1,11 @@
+{"time":"2024-12-06T17:10:10.350942077+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T17:10:10.350969419+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip/wandb/run-20241206_171010-11895bwa/logs/debug-core.log"}
+{"time":"2024-12-06T17:10:10.467887908+09:00","level":"INFO","msg":"created new stream","id":"11895bwa"}
+{"time":"2024-12-06T17:10:10.467924217+09:00","level":"INFO","msg":"stream: started","id":"11895bwa"}
+{"time":"2024-12-06T17:10:10.467989393+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"11895bwa"}
+{"time":"2024-12-06T17:10:10.468069947+09:00","level":"INFO","msg":"sender: started","stream_id":"11895bwa"}
+{"time":"2024-12-06T17:10:10.468132136+09:00","level":"INFO","msg":"handler: started","stream_id":"11895bwa"}
+{"time":"2024-12-06T17:10:10.753060566+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T17:10:31.784212314+09:00","level":"INFO","msg":"stream: closing","id":"11895bwa"}
+{"time":"2024-12-06T17:10:31.784278371+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T17:10:31.785167017+09:00","level":"INFO","msg":"Stopped system monitor"}

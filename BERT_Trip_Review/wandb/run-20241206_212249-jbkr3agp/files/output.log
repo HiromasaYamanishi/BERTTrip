@@ -1,0 +1,56 @@
+  0%|                                                                                                                                                                         | 0/37700 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/run.py", line 113, in <module>
+    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 131, in train
+    self._contrastive_pretrain(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 203, in _contrastive_pretrain
+    pretrain_trainer.train()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2123, in train
+    return inner_training_loop(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2481, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 93, in training_step
+    loss = self.compute_loss(model, inputs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 76, in compute_loss
+    outputs = model(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_review.py", line 138, in forward
+    return self.forward_pretrain(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_review.py", line 376, in forward_pretrain
+    z_context_representation, z_context_pooled = self.bert(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+TypeError: forward() got an unexpected keyword argument 'time_ids'
+Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/run.py", line 113, in <module>
+    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 131, in train
+    self._contrastive_pretrain(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 203, in _contrastive_pretrain
+    pretrain_trainer.train()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2123, in train
+    return inner_training_loop(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2481, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 93, in training_step
+    loss = self.compute_loss(model, inputs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 76, in compute_loss
+    outputs = model(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_review.py", line 138, in forward
+    return self.forward_pretrain(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_review.py", line 376, in forward_pretrain
+    z_context_representation, z_context_pooled = self.bert(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+TypeError: forward() got an unexpected keyword argument 'time_ids'

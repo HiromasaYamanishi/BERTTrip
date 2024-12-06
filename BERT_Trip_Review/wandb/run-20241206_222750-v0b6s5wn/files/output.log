@@ -1,0 +1,296 @@
+  0%|                                                      | 0/377 [00:00<?, ?it/s]
+call batch dict_keys(['input_ids', 'attention_mask', 'aug_input_ids', 'aug_attention_mask', 'labels', 'aug_labels'])
+call batch dict_keys(['input_ids', 'attention_mask', 'aug_input_ids', 'aug_attention_mask', 'labels', 'aug_labels'])
+forward inputs
+inputids tensor([[   1,  478,  100,  125,   88,    0,   80,    3,    2,    2],
+        [   1,  726,    4,    4,    0,   67,    0,    3,    2,    2],
+        [   1, 1842,    4,    4,   60,    0,   71,    3,    2,    2],
+        [   1,  942,  118,    4,   43,   30,   71,    0,   67,    3],
+        [   1, 2118,  111,  125,   68,    0,   59,    3,    2,    2],
+        [   1,  479,    4,  133,   71,    0,   23,    0,    3,    2],
+        [   1, 1937,  133,   95,    0,    0,   78,    3,    2,    2],
+        [   1,  896,    4,   95,   71,   72,    0,   51,    3,    2],
+        [   1,  180,    4,    4,    0,   52,   67,    0,    3,    2],
+        [   1, 1219,   97,   93,    0,    0,    0,   60,    0,    3],
+        [   1, 2195,    4,    4,    0,    0,   60,   71,    3,    2],
+        [   1,  923,    4,    4,    0,    0,   78,   44,    3,    2],
+        [   1,  993,    4,    4,    7,    0,   33,    3,    2,    2],
+        [   1,  763,    4,    4,   51,    0,   60,    0,    3,    2],
+        [   1,  471,    4,  125,   51,   68,   23,    0,   72,    3],
+        [   1,  715,    4,    4,   76,    0,   37,    3,    2,    2],
+        [   1, 1771,    4,  111,   51,   81,    0,    3,    2,    2],
+        [   1, 1675,  121,  117,   84,    0,   10,    3,    2,    2],
+        [   1, 1438,    4,    4,    0,   91,    0,    0,   42,    3],
+        [   1, 1981,    4,    4,   31,   20,    0,    3,    2,    2],
+        [   1,  382,    4,    4,    0,   60,   42,    3,    2,    2],
+        [   1, 1305,    4,    4,   80,   51,    0,   23,    0,    3],
+        [   1, 2070,    4,    4,   82,    0,    0,   33,    3,    2],
+        [   1, 1466,    4,    4,    0,   24,   53,   10,    3,    2],
+        [   1,  730,    4,    4,    0,   60,    0,    0,    3,    2],
+        [   1, 2253,    4,    4,   15,   37,   44,    3,    2,    2],
+        [   1, 1094,    4,    4,    0,    0,    7,    3,    2,    2],
+        [   1, 1691,    4,    4,   35,    0,    0,    3,    2,    2],
+        [   1, 1217,    4,    4,   23,    7,   45,    3,    2,    2],
+        [   1, 2090,  138,    4,    0,   46,   78,    3,    2,    2],
+        [   1, 1891,    4,    4,    0,   68,   23,   60,    0,    3],
+        [   1,  359,    4,    4,    0,   68,    0,    3,    2,    2]],
+       device='cuda:0') labels tensor([[-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   60, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   43,   68, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100,   59, -100, -100],
+        [-100, -100, -100, -100, -100,   68,   72, -100,   60, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   71, -100, -100, -100,    6, -100],
+        [-100, -100, -100, -100,   83, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   43,   72,   60, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100,   71, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   23, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100,   23, -100,   20, -100],
+        [-100, -100, -100, -100, -100,   68, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100,    9, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   41,   10, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100,   88, -100, -100, -100],
+        [-100, -100, -100, -100,   68, -100,   42, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   68, -100,   71, -100, -100],
+        [-100, -100, -100, -100,   82,   14,   12,   33, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100,   10, -100, -100],
+        [-100, -100, -100, -100, -100,   60,   72, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   37, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   68,   60, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   23, -100,   45, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   68, -100, -100,   78, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   80,   68,   71, -100, -100, -100]],
+       device='cuda:0') tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0]], device='cuda:0') tensor([[   1,  478,   97,  125,   88,   60,   80,    3,    2,    2],
+        [   1, 1742,    4,    4,   72,   67,   19,    3,    2,    2],
+        [   1, 2048,    4,    4,    0,   67,   71,    3,    2,    2],
+        [   1,  942,  118,    4,   25,    0,   71,   67,    3,    2],
+        [   1, 1077,   97,  125,   51,   68,   71,   59,    3,    2],
+        [   1,  479,    4,  129,   71,   32,    0,   59,   72,    3],
+        [   1,  302,  133,  105,   71,   45,   78,    3,    2,    2],
+        [   1, 2069,    4,  117,    0,   68,   72,   42,    0,    3],
+        [   1, 1872,    4,    4,   14,   67,   91,    3,    2,    2],
+        [   1,  237,  111,  125,   21,    0,    0,    3,    2,    2],
+        [   1, 2040,    4,    4,   51,   60,    0,    3,    2,    2],
+        [   1, 1839,    4,    4,   68,   23,   78,   71,    3,    2],
+        [   1,  431,    4,    4,   71,   66,   33,    3,    2,    2],
+        [   1, 1345,    4,    4,   51,   68,   23,   31,    0,    3],
+        [   1, 2181,    4,  138,   51,    0,   23,   60,   72,    3],
+        [   1, 2295,    4,    4,   76,   79,   37,    3,    2,    2],
+        [   1,  735,    4,  111,   51,   45,   12,    3,    2,    2],
+        [   1,  976,   97,  125,   84,   89,    0,   65,    3,    2],
+        [   1, 1438,    4,    4,   78,   91,   59,   42,    3,    2],
+        [   1, 2080,    4,    4,   31,   20,    0,    3,    2,    2],
+        [   1,  967,    4,    4,    0,   60,    0,    3,    2,    2],
+        [   1, 1305,    4,    4,   51,    0,   23,    0,    3,    2],
+        [   1, 2070,    4,    4,    0,    0,    0,    0,    3,    2],
+        [   1, 1466,    4,    4,   80,   60,   53,    0,    3,    2],
+        [   1, 1451,    4,    4,   23,   49,   19,   71,    3,    2],
+        [   1,  929,    4,    4,   15,    0,   44,    3,    2,    2],
+        [   1, 1094,    4,    4,   35,    0,    0,    7,    3,    2],
+        [   1, 1167,    4,    4,   22,   11,    8,    3,    2,    2],
+        [   1, 1542,    4,    4,   77,   42,   45,    3,    2,    2],
+        [   1, 2180,  129,    4,   80,    0,   23,   60,   72,    3],
+        [   1,  141,    4,    4,   51,   23,   60,   31,   90,    3],
+        [   1,  359,    4,    4,    0,    0,    0,    3,    2,    2]],
+       device='cuda:0') tensor([[-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   60, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   43,   68, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100,   59, -100, -100],
+        [-100, -100, -100, -100, -100,   68,   72, -100,   60, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   71, -100, -100, -100,    6, -100],
+        [-100, -100, -100, -100,   83, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   43,   72,   60, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100,   71, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   23, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100,   23, -100,   20, -100],
+        [-100, -100, -100, -100, -100,   68, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100,    9, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   41,   10, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100,   88, -100, -100, -100],
+        [-100, -100, -100, -100,   68, -100,   42, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   68, -100,   71, -100, -100],
+        [-100, -100, -100, -100,   82,   14,   12,   33, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100,   10, -100, -100],
+        [-100, -100, -100, -100, -100,   60,   72, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   37, -100, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   68,   60, -100, -100, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   23, -100,   45, -100, -100, -100],
+        [-100, -100, -100, -100, -100,   68, -100, -100,   78, -100],
+        [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100],
+        [-100, -100, -100, -100,   80,   68,   71, -100, -100, -100]],
+       device='cuda:0') tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0]], device='cuda:0') None None None None None None None None None None None None None None None None None fine_tune
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/run.py", line 113, in <module>
+    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 146, in train
+    self._fine_tune(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 215, in _fine_tune
+    self.trip_trainer.train(dataset_file_path = dataset_file_path,
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 70, in train
+    trainer.train()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2123, in train
+    return inner_training_loop(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2481, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 3579, in training_step
+    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 3633, in compute_loss
+    outputs = model(**inputs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_review.py", line 208, in forward
+    return self.forward_finetune(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_review.py", line 348, in forward_finetune
+    head1 = self.cls(torch.cat([z1_context_representation, z1_review_representation], dim=1))
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_model.py", line 999, in forward
+    prediction_scores = self.predictions(sequence_output)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_model.py", line 980, in forward
+    hidden_states = self.transform(hidden_states)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_model.py", line 905, in forward
+    hidden_states = self.dense(hidden_states)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (640x768 and 1536x768)
+Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/run.py", line 113, in <module>
+    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 146, in train
+    self._fine_tune(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 215, in _fine_tune
+    self.trip_trainer.train(dataset_file_path = dataset_file_path,
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 70, in train
+    trainer.train()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2123, in train
+    return inner_training_loop(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2481, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 3579, in training_step
+    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 3633, in compute_loss
+    outputs = model(**inputs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_review.py", line 208, in forward
+    return self.forward_finetune(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_review.py", line 348, in forward_finetune
+    head1 = self.cls(torch.cat([z1_context_representation, z1_review_representation], dim=1))
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_model.py", line 999, in forward
+    prediction_scores = self.predictions(sequence_output)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_model.py", line 980, in forward
+    hidden_states = self.transform(hidden_states)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/bert/bert_model.py", line 905, in forward
+    hidden_states = self.dense(hidden_states)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/nn/modules/linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (640x768 and 1536x768)

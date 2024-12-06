@@ -1,0 +1,16 @@
+{"time":"2024-12-06T22:10:37.10216461+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T22:10:37.102176598+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/wandb/run-20241206_221036-rfqnodvh/logs/debug-core.log"}
+{"time":"2024-12-06T22:10:37.213835919+09:00","level":"INFO","msg":"created new stream","id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:37.213890393+09:00","level":"INFO","msg":"stream: started","id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:37.214047182+09:00","level":"INFO","msg":"handler: started","stream_id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:37.214026266+09:00","level":"INFO","msg":"sender: started","stream_id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:37.214134118+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:37.529676134+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T22:10:38.046166446+09:00","level":"INFO","msg":"stream: closing","id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:38.049865222+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T22:10:38.050648607+09:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-12-06T22:10:38.800133848+09:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-12-06T22:10:39.056151433+09:00","level":"INFO","msg":"handler: closed","stream_id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:39.056214443+09:00","level":"INFO","msg":"sender: closed","stream_id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:39.056215784+09:00","level":"INFO","msg":"writer: Close: closed","stream_id":"rfqnodvh"}
+{"time":"2024-12-06T22:10:39.057023312+09:00","level":"INFO","msg":"stream: closed","id":"rfqnodvh"}

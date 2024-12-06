@@ -1,0 +1,56 @@
+  0%|                                                       | 0/48 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/run.py", line 113, in <module>
+    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 139, in train
+    self._contrastive_pretrain(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 186, in _contrastive_pretrain
+    self.trip_trainer.train(dataset_file_path = dataset_file_path,
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 71, in train
+    trainer.train()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2123, in train
+    return inner_training_loop(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2427, in _inner_training_loop
+    batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 5045, in get_batch_samples
+    batch_samples += [next(epoch_iterator)]
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/accelerate/data_loader.py", line 552, in __iter__
+    current_batch = next(dataloader_iter)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 757, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer_utils.py", line 841, in __call__
+    return self.data_collator(features)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/data_collator.py", line 111, in __call__
+    batch['input_ids'] = torch.cat([batch['input_ids'], torch.ones(batch['input_ids'])*10000], axis=1)
+TypeError: ones(): argument 'size' (position 1) must be tuple of ints, but found element of type Tensor at pos 0
+Traceback (most recent call last):
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/run.py", line 113, in <module>
+    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 139, in train
+    self._contrastive_pretrain(
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 186, in _contrastive_pretrain
+    self.trip_trainer.train(dataset_file_path = dataset_file_path,
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/pretrain.py", line 71, in train
+    trainer.train()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2123, in train
+    return inner_training_loop(
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 2427, in _inner_training_loop
+    batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer.py", line 5045, in get_batch_samples
+    batch_samples += [next(epoch_iterator)]
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/accelerate/data_loader.py", line 552, in __iter__
+    current_batch = next(dataloader_iter)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 757, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/home/yamanishi/.pyenv/versions/miniconda3-latest/envs/berttrip/lib/python3.9/site-packages/transformers/trainer_utils.py", line 841, in __call__
+    return self.data_collator(features)
+  File "/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/model/data_collator.py", line 111, in __call__
+    batch['input_ids'] = torch.cat([batch['input_ids'], torch.ones(batch['input_ids'])*10000], axis=1)
+TypeError: ones(): argument 'size' (position 1) must be tuple of ints, but found element of type Tensor at pos 0

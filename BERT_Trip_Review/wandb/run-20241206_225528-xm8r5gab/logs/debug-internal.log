@@ -1,0 +1,11 @@
+{"time":"2024-12-06T22:55:28.728929698+09:00","level":"INFO","msg":"using version","core version":"0.19.0"}
+{"time":"2024-12-06T22:55:28.728944691+09:00","level":"INFO","msg":"created symlink","path":"/home/yamanishi/project/airport/src/analysis/route_recommendation/BERT-Trip/BERT_Trip_Review/wandb/run-20241206_225528-xm8r5gab/logs/debug-core.log"}
+{"time":"2024-12-06T22:55:28.844353786+09:00","level":"INFO","msg":"created new stream","id":"xm8r5gab"}
+{"time":"2024-12-06T22:55:28.844409128+09:00","level":"INFO","msg":"stream: started","id":"xm8r5gab"}
+{"time":"2024-12-06T22:55:28.84452973+09:00","level":"INFO","msg":"writer: Do: started","stream_id":"xm8r5gab"}
+{"time":"2024-12-06T22:55:28.844621026+09:00","level":"INFO","msg":"handler: started","stream_id":"xm8r5gab"}
+{"time":"2024-12-06T22:55:28.844644622+09:00","level":"INFO","msg":"sender: started","stream_id":"xm8r5gab"}
+{"time":"2024-12-06T22:55:29.309033493+09:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-06T22:55:38.565340809+09:00","level":"INFO","msg":"stream: closing","id":"xm8r5gab"}
+{"time":"2024-12-06T22:55:38.565450907+09:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-12-06T22:55:38.566147802+09:00","level":"INFO","msg":"Stopped system monitor"}
