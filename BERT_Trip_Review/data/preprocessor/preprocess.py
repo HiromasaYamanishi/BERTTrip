@@ -25,6 +25,157 @@ def main(dataset):
     precision = 6
     poi_name = "poi-" + filename + ".csv"
     tra_name = "traj-" + filename + ".csv"
+    
+    op_tdata = open(f'./data/{dataset}/' + poi_name, 'r')
+    ot_tdata = open(f'./data/{dataset}/' + tra_name, 'r')
+    final_dir = f'{output_dir}/{filename}'
+    Path(final_dir).mkdir(parents=True, exist_ok=True)
+
+    def create_vocab_file(unique):
+        prepend = ['[MASK]','[CLS]','[PAD]','[SEP]','[UNK]']
+        print('create vocab unique', unique.keys())
+        for key in unique:
+            if key == 'poi':
+                data = prepend + list(unique['poi']) + list(unique['time']) + list(unique['user'])
+                print('poi:', len(unique['poi']), 'time:', len(unique['time']), 'user:', len(unique['user']))
+            elif key == 'review':
+                data = prepend + list(unique['review']) + list(unique['time']) + list(unique['user'])
+                print('review:', len(unique['review']), 'time:', len(unique['time']), 'user:', len(unique['user']))
+            else:
+                data = prepend + list(unique[key])
+            d = pd.DataFrame.from_dict(data)
+            vocab_path = f'{final_dir}/{key}_vocab.txt'
+            d.to_csv(vocab_path, index=False, header=None)
+
+    points = util.read_POIs(op_tdata)
+    (trajectories, users, poi_count) = util.read_trajectory(ot_tdata)
+    print('len trajectory', len(trajectories))
+    trajectories = [t[1:] for t in trajectories[1:]]
+    trajectories = util.filter_trajectory(trajectories)
+    print('filter len trajectory', len(trajectories), )
+
+    unique = {
+        'user': set(),
+        'poi': set(),
+        'time': set(),
+        'review': set(),  # 新しく追加
+        'cat': set(),
+        'ghash': set(),
+        'week': set(),
+        'day': set(),
+        'quarter_hour': set(),
+    }
+
+    # 時間帯の追加（0-47）
+    for i in range(48):
+        unique['time'].add(f'time-{i}')
+
+    checkins = []
+    max_length = 0
+    incorrect_trajectory = 0
+    poi_ghash = {}
+    poi_cat = {}
+
+    for key in trajectories:
+        trajectory_list = trajectories[key]
+        matches = key.split('-')
+        user_id = matches[0]
+        traj_id = matches[1]
+        data = []
+
+        if len(trajectory_list) > max_length:
+            max_length = len(trajectory_list)
+
+        for trajectory in trajectory_list:
+            place_id = trajectory[0]
+            timestamp = int(trajectory[2])
+            review_id = trajectory[3]  # 新しく追加：review_idの取得
+
+            dt_object = datetime.datetime.fromtimestamp(timestamp)
+            week = str(dt_object.isocalendar()[1])
+            day = str(dt_object.isocalendar()[2])
+            quarter_hour = str(int(dt_object.hour) * 4 + int(dt_object.minute / 15))
+
+            cat = points[place_id]['cat'].replace(' ', '').replace(',', '-')
+            lat = points[place_id]['lat']
+            lon = points[place_id]['lon']
+            ghash = geohash.encode(float(lat), float(lon), precision=precision)
+
+            # ユニークな値の追加
+            unique['poi'].add(place_id)
+            unique['user'].add(user_id)
+            unique['cat'].add(cat)
+            unique['ghash'].add(ghash)
+            unique['week'].add(week)
+            unique['day'].add(day)
+            unique['quarter_hour'].add(quarter_hour)
+            unique['review'].add(review_id)
+
+            poi_ghash[place_id] = ghash
+            poi_cat[place_id] = cat
+            timestamp = str(timestamp)
+
+            data.append({
+                'place_id': place_id,
+                'ghash': ghash,
+                'cat': cat,
+                'week': week,
+                'day': day,
+                'quarter_hour': quarter_hour,
+                'timestamp': timestamp,
+                'review_id': review_id
+            })
+
+        # 時系列チェック
+        timestamps = list(map(lambda x: int(x['timestamp']), data))
+        last_timestamp = -1
+        for timestamp in timestamps:
+            if last_timestamp == -1:
+                last_timestamp = timestamp
+            else:
+                if last_timestamp > timestamp:
+                    incorrect_trajectory += 1
+                    break
+
+        # シーケンスの作成
+        sequence_place_id = ','.join(map(lambda x: x['place_id'], data))
+        sequence_geohash = ','.join(map(lambda x: x['ghash'], data))
+        sequence_category = ','.join(map(lambda x: x['cat'], data))
+        sequence_week = ','.join(map(lambda x: x['week'], data))
+        sequence_day = ','.join(map(lambda x: x['day'], data))
+        sequence_quarter_hour = ','.join(map(lambda x: x['quarter_hour'], data))
+        sequence_timestamp = ','.join(map(lambda x: x['timestamp'], data))
+        sequence_review = ','.join(map(lambda x: x['review_id'], data))
+
+        checkins.append([
+            user_id,
+            sequence_place_id,
+            sequence_geohash,
+            sequence_category,
+            sequence_week,
+            sequence_day,
+            sequence_quarter_hour,
+            sequence_timestamp,
+            sequence_review
+        ])
+
+    print(f'{filename}: {max_length} incorrect_trajectory: {incorrect_trajectory} / {len(trajectories)} = {incorrect_trajectory / len(trajectories)}')
+
+    # vocabularyファイルの作成
+    create_vocab_file(unique)
+
+    # データの保存
+    df = pd.DataFrame(checkins)
+    df.to_csv(f"{final_dir}/data.csv", index=False, sep="|", header=False)
+
+def main_(dataset):
+    pwd = os.getcwd()
+    output_dir = f'{pwd}/data/'
+    input_dir = f'{pwd}/data/{dataset}'
+    filename = dataset
+    precision = 6
+    poi_name = "poi-" + filename + ".csv"
+    tra_name = "traj-" + filename + ".csv"
     # op_tdata = open('./origin_data/' + poi_name, 'r')
     # ot_tdata = open('./origin_data/' + tra_name, 'r')
     op_tdata = open(f'./data/{dataset}/' + poi_name, 'r')
@@ -40,7 +191,6 @@ def main(dataset):
     #         d.to_csv(f'{final_dir}/{key}_vocab.txt', index = False, header = None)
     def create_vocab_file(unique):
         prepend = ['[MASK]','[CLS]','[PAD]','[SEP]','[UNK]']
-        print('create vocab unique', unique.keys())
         for key in unique:
             if key == 'poi':
                 data = prepend + list(unique['poi']) + list(unique['time']) + list(unique['user'])
@@ -53,11 +203,9 @@ def main(dataset):
 
     points = util.read_POIs(op_tdata)
     (trajectories, users, poi_count) = util.read_trajectory(ot_tdata)
-    print('len trajectory', len(trajectories))
-    print('trajectory', trajectories[:5])
     trajectories = [t[1:] for t in trajectories[1:]]
     trajectories = util.filter_trajectory(trajectories)
-    print('filter len trajectory', len(trajectories))
+    # print('filter len trajectory', len(trajectories))
     checkins = []
     max_length = 0
     for key in trajectories:

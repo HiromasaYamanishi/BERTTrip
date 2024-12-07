@@ -71,6 +71,7 @@ if __name__ == "__main__":
                 # print('base model', base_model)
                 kw = {
                     'dataset': dataset,
+                    'fold': fold,
                     'mlm_probability': mlm_probability,
                     'model_type': model,
                     'hidden_size': hidden_size,
@@ -106,9 +107,7 @@ if __name__ == "__main__":
                 N = int(expected_size / len(train_data.index))
                 train_df = pd.concat([train_data] * N, ignore_index = True)
                 for epoch in range(50):
-                    # print('epoch', epoch)
                     train_df = train_df.sample(frac = 1, random_state = random_state + epoch)
-                    #print('train df to csv', m.config.pretrain_data)
                     train_df.to_csv(m.config.pretrain_data, sep = m.config.feature_sep, header = None, index = False)
                     m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
                     result = tester.run(m.config.test_data, model = m.model, epoch = epoch, strategy = 'one_by_one', verbose = False)

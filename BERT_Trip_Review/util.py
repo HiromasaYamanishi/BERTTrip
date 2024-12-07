@@ -346,7 +346,7 @@ def get_root_dir():
     root_dir = Path(__file__).resolve().parent.parent
     return root_dir
 def get_data_dir():
-    return get_root_dir() / 'BERT_Trip' / 'data'
+    return get_root_dir() / 'BERT_Trip_Review' / 'data'
 def get_dataset_dir(dataset):
     return get_data_dir() / dataset
 

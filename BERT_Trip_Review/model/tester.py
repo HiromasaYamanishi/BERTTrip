@@ -8,6 +8,42 @@ from util import calc_F1, calc_pairsF1, true_f1, true_pairs_f1, bleu, datetime_t
 from nltk.translate.bleu_score import sentence_bleu
 from nltk.translate.bleu_score import SmoothingFunction
 from typing import Optional, Tuple, Any
+def extract_poi_ids_and_index(file_path: str) -> tuple[list, int, int]:
+   """
+   Extract POI IDs from vocabulary file and get start/end indices
+   
+   Args:
+       file_path (str): Path to vocabulary file
+       
+   Returns:
+       tuple[list, int, int]: 
+           - List of POI IDs as integers
+           - Start index (index after [UNK])
+           - End index (index before first time token)
+   """
+   poi_ids = []
+   start_idx = -1
+   end_idx = -1
+   
+   with open(file_path, 'r') as f:
+       lines = f.readlines()
+       
+       # Find [UNK] and time- positions
+       for i, line in enumerate(lines):
+           line = line.strip()
+           if line == '[UNK]':
+               start_idx = i + 1
+           elif line.startswith('time-'):
+               end_idx = i
+               break
+       
+       # Extract POI IDs
+       if start_idx != -1 and end_idx != -1:
+           for line in lines[start_idx:end_idx]:
+               if line.strip().isdigit():
+                   poi_ids.append(int(line.strip()))
+                   
+   return poi_ids, start_idx, end_idx
 
 class ResultManager:
     def __init__(self, verbose = True):
@@ -48,7 +84,7 @@ class ResultManager:
                         print(f'#{run} {test_type:<11}: {model:<15} = best_f1: {fold_result.best_f1_result:.3f}')
         print("---------------------------------------------------")
         print()
-    def save_fold_result(self, model, config, dataset, fold, date, expected_size, mlm_probability, random_state, train_size, test_size):
+    def save_fold_result_(self, model, config, dataset, fold, date, expected_size, mlm_probability, random_state, train_size, test_size):
         for test_type in self.test_types:
             if model in self.result and fold in self.result[model] and test_type in self.result[model][fold]:
                 fold_result = self.result[model][fold][test_type]
@@ -65,6 +101,29 @@ class ResultManager:
                 with open(file_path, 'a') as f:
                     f.write(f'{dataset}|{model_name}|{train_size}|{test_size}|{fold}|{date}|{random_state}|{results}\n')
 
+    def save_fold_result(self, model, config, dataset, fold, date, expected_size, mlm_probability, random_state, train_size, test_size, pretrain_epochs, pretrain_batch_size):
+        for test_type in self.test_types:
+            if model in self.result and fold in self.result[model] and test_type in self.result[model][fold]:
+                fold_result = self.result[model][fold][test_type]
+                fold_test_results = fold_result.best_test_results
+                file_path = f'{self.result_dir}/{model}_{dataset}_{expected_size}_h{config.hidden_size}_l_{config.num_hidden_layers}_head{config.num_attention_heads}_{mlm_probability}_pretrain_{pretrain_epochs}_{pretrain_batch_size}_results.csv'
+                y_true = list(map(lambda x: x.y_true, fold_test_results.results))
+                y_pred = list(map(lambda x: x.y_pred, fold_test_results.results))
+                model_name = f'{model}_{expected_size}_{mlm_probability}_{test_type}'
+                assert(len(y_pred) == len(y_true))
+                
+                # f1スコアを計算
+                _, summary_df, _ = fold_test_results.calc_results()
+                f1_score = fold_result.best_f1_result
+                best_epoch = fold_result.best_f1_result_epoch
+                
+                results = [{
+                    "expected": y_true[i],
+                    "predict": y_pred[i],
+                } for i in range(len(y_true))]
+                
+                with open(file_path, 'a') as f:
+                    f.write(f'{dataset}|{model_name}|{pretrain_epochs}|{pretrain_batch_size}|{train_size}|{test_size}|{fold}|{date}|{random_state}|{f1_score:.4f}|{best_epoch}|{results}\n')
 class TestResult:
     def __init__(self, y_true, y_pred):
         self.fold = -1
@@ -94,8 +153,8 @@ class TestResults:
         #print('df', df.head())
         #print(len(df))
         count = 0
-        for t,p in zip(data['y_true'], data['y_pred']):
-            print(t, p)
+        # for t,p in zip(data['y_true'], data['y_pred']):
+        #     print(t, p)
         #     if len(t)!=len(p):
         #         print(count, t, p)
         #         count+=1
@@ -151,7 +210,7 @@ class Tester:
             i = 0
             cnt = 0
             size = len(lines)
-            print('lines', lines[:5])
+            #print('lines', lines[:5])
             with torch.no_grad():
                 for line in lines:
                     pois = self.format_line(model.config, line)
@@ -163,7 +222,7 @@ class Tester:
                         cnt += i
                         print(f'Progress: {cnt} / {size}')
                         i = 0
-
+                #exit()
                 if i > 0:
                     test_batch_pois = test_batch_pois[:i]
                     cnt += i
@@ -179,7 +238,7 @@ class Tester:
         sep_token_id = 3
         unk_token_id = 4
         poi_ids = torch.tensor(test_batch_pois, dtype = torch.int64, device = self.device)
-
+        #print('place1', poi_ids)
         attention_mask = torch.full(poi_ids.shape, 1).to(self.device)
         attention_mask[(poi_ids == pad_token_id)] = 0
         expected_poi_ids = poi_ids.clone()
@@ -191,6 +250,8 @@ class Tester:
         for row, column in result:
             # [CLS] USER TIME_1 TIME_2 POI_1 MASK
             poi_ids[row, self.start_predict_pos: column - 1] = mask_token_id
+
+        #print('place3', poi_ids)
         torch.set_printoptions(threshold=10_000,edgeitems= 100000)
         max_trajectory_length = max_sequence_length - 2
         inputs = {'input_ids': poi_ids, 'attention_mask': attention_mask}
@@ -209,8 +270,8 @@ class Tester:
                 end_index = (y_true == sep_token_id).nonzero()[0]
                 y_true = self.poi_tokenizer.convert_ids_to_tokens(y_true[start_index:end_index])
                 y_pred = self.poi_tokenizer.convert_ids_to_tokens(y_pred[start_index:end_index])
-                if len(y_true) < 3 or len(y_pred) < 3:
-                    print(y_true, y_pred)
+                #if len(y_true) < 3 or len(y_pred) < 3:
+                #    print(y_true, y_pred)
                 results.append(TestResult(y_true, y_pred))
 
         return results
@@ -226,7 +287,9 @@ class Tester:
 
     def one_by_one(self, model, inputs, expected_outputs, max_trajectory_length, mask_token_id, unk_token_id):
         poi_ids = inputs['input_ids']
+        #print('one by one ids', poi_ids)
         expected = expected_outputs['input_ids']
+        _, start_idx, end_idx = extract_poi_ids_and_index(self.config.poi_vocab_file)
         for masked_index in range(self.start_predict_pos, max_trajectory_length):
             masked = torch.full(poi_ids.shape, False)
             masked[:, masked_index] = True
@@ -235,9 +298,16 @@ class Tester:
             masked = masked & masked2
             if len((masked2 == True).nonzero()) == 0:
                 break
+            #print('inputs', inputs)
             output = model(**inputs)
             logits = output.logits
+            #print('logits', logits.shape, masked)
+            logits[:, :, :start_idx] = -1e9
+            logits[:, :, end_idx:] = -1e9
+            #print('logits', logits.shape, start_idx, end_idx)
             indices = torch.argmax(logits, dim = -1)
+            #print('indices', indices)
+            #print(inputs['input_ids'], masked)
             inputs['input_ids'][masked] = indices[masked]
         return inputs['input_ids']
 
@@ -253,7 +323,7 @@ class Tester:
         if self.config.add_user_token:
             input_ids.append(user_id)
         if self.config.add_time_token:
-            times = [datetime.fromtimestamp(int(i)) for i in features[-1].split(self.config.time_series_sep)]
+            times = [datetime.fromtimestamp(int(i)) for i in features[-2].split(self.config.time_series_sep)]
             times = [datetime_to_interval(t) for t in times]
             times = [f'time-{_}' for _ in times]
             times = [times[0], times[-1]]
@@ -264,8 +334,11 @@ class Tester:
         input_ids.append(trajectory)
 
         input_ids = f'[CLS] {sep.join(input_ids)} [SEP]'
+        #print('input ids 1', input_ids)
         input_ids = self.poi_tokenizer.tokenize(input_ids)
+        #print('input ids 2', input_ids)
         input_ids = self.poi_tokenizer.convert_tokens_to_ids(input_ids)
+        #print('input ids 3', input_ids)
         size = len(input_ids)
         #print('input_ids', input_ids)
         poi_ids[:size] = input_ids

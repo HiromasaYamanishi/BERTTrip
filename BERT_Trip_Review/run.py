@@ -13,11 +13,18 @@ import argparse
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='tokyo3')
+    parser.add_argument('--pretrain_epochs', type=int, default=10)
+    parser.add_argument('--pretrain_batch_size', type=int, default=128)
+    parser.add_argument('--hidden_size', type=int, default=768)
+    parser.add_argument('--finetune_batch_size', type=int, default=128)
+    parser.add_argument('--num_hidden_layers', type=int, default=8)
+    parser.add_argument('--num_attention_heads', type=int, default=8)
+
     args = parser.parse_args()
 
     mlm_probability = 0.15
-    batch_size = 32
-    hidden_size = 768
+    batch_size = args.finetune_batch_size
+    hidden_size = args.hidden_size
     num_hidden_layers = 8
     num_attention_heads = 8
 
@@ -55,6 +62,7 @@ if __name__ == "__main__":
         test_data_file_path = f'{data_dir}/test.csv'
 
         df = pd.read_csv(data_file_path, sep = '|', header = None, ).rename(columns = {0: 'user' , 1: 'traj', 7: 'timestamp'})
+        #print('df', data_file_path, df.head(), df.columns)
         date = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
         results = ResultManager()
 
@@ -105,13 +113,23 @@ if __name__ == "__main__":
 
                 N = int(expected_size / len(train_data.index))
                 train_df = pd.concat([train_data] * N, ignore_index = True)
+                for epoch in range(args.pretrain_epochs):
+                    # print('epoch', epoch)
+                    train_df = train_df.sample(frac = 1, random_state = random_state + epoch)
+                    #print('train df to csv', m.config.pretrain_data)
+                    #print('train df', train_df.head())
+                    train_df.to_csv(m.config.pretrain_data, sep = m.config.feature_sep, header = None, index = False)
+                    m.train(m.config.pretrain_data, batch_size = args.pretrain_batch_size, epochs = 1, save_model = False, mode='contrastive')
+
                 for epoch in range(50):
                     # print('epoch', epoch)
                     train_df = train_df.sample(frac = 1, random_state = random_state + epoch)
                     #print('train df to csv', m.config.pretrain_data)
+                    #print('train df', train_df.head())
                     train_df.to_csv(m.config.pretrain_data, sep = m.config.feature_sep, header = None, index = False)
-                    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False)
-                    result = tester.run(m.config.test_data, model = m.model, epoch = epoch, strategy = 'one_by_one', verbose = False)
+                    m.train(m.config.pretrain_data, batch_size = batch_size, epochs = 1, save_model = False, mode='finetune')
+                    result = tester.run(m.config.test_data, model = m.trip_trainer.model, epoch = epoch, strategy = 'one_by_one', verbose = False)
                     results.insert_fold_records(model, m.config, random_state, fold, epoch, result, 'one_by_one')
                     results.print_best_results()
-                results.save_fold_result(model, m.config, dataset, fold, date, expected_size, mlm_probability, random_state, len(train_data.index), len(test_data.index))
+                results.save_fold_result(model, m.config, dataset, fold, date, expected_size, mlm_probability, random_state, len(train_data.index), len(test_data.index),
+                                         args.pretrain_epochs, args.pretrain_batch_size)

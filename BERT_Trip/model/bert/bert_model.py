@@ -187,8 +187,6 @@ class BertTripConfig(PretrainedConfig):
         self.pretrained_model_config_file = f'{self.pretrained_model_dir}/config.json'
         self.finetuned_model_dir = f'{self.saved_model_dir}/finetuned/{self.dataset}'
         self.finetuned_model_config_file = f'{self.finetuned_model_dir}/config.json'
-        print('model type', model_type)
-        print('data dir', self.dataset)
         self.data_dir = f'./data/{self.dataset}'
         self.pretrain_data = f'{self.data_dir}/pretrain_data.csv'
         self.train_data = f'{self.data_dir}/train.csv'
@@ -198,7 +196,6 @@ class BertTripConfig(PretrainedConfig):
         self.data = f'{self.data_dir}/data.csv'
 
         self.poi_vocab_file = f'{self.data_dir}/poi_vocab.txt'
-        print('poi vocab file', self.poi_vocab_file)
         self.poi_vocab_size = wccount(self.poi_vocab_file)
         self.residual_type='none'
         self.add_user_token = add_user_token

@@ -146,6 +146,7 @@ class BertTripConfig(PretrainedConfig):
         use_cache=True,
         mlm_probability = 0.15,
         dataset='osaka',
+        fold=0,
         model_type='bert',
         add_user_token = False,
         add_time_token = False,
@@ -159,7 +160,7 @@ class BertTripConfig(PretrainedConfig):
                                  'intermediate_size': intermediate_size, 'num_hidden_layers': num_hidden_layers, 
                                  'num_attention_heads': num_attention_heads, 'add_user_token': add_user_token, 
                                  'add_time_token': add_time_token, 'use_data_agumentation': use_data_agumentation}
-        print('original kwargs', self._original_kwargs)
+        #print('original kwargs', self._original_kwargs)
         super().__init__(pad_token_id=pad_token_id, **kwargs)
         self.vocab_size = vocab_size
         self.hidden_size = hidden_size
@@ -189,8 +190,8 @@ class BertTripConfig(PretrainedConfig):
         self.pretrain_lr = 0.001
         self.finetuned_model_dir = f'{self.saved_model_dir}/finetuned/{self.dataset}'
         self.finetuned_model_config_file = f'{self.finetuned_model_dir}/config.json'
-        print('model type', model_type)
-        print('data dir', self.dataset)
+        #print('model type', model_type)
+        #print('data dir', self.dataset)
         self.data_dir = f'./data/{self.dataset}'
         self.pretrain_data = f'{self.data_dir}/pretrain_data.csv'
         self.train_data = f'{self.data_dir}/train.csv'
@@ -198,10 +199,15 @@ class BertTripConfig(PretrainedConfig):
         self.train_data2 = f'{self.data_dir}/traj-{self.dataset}.csv'
         self.poi_data = f'{self.data_dir}/poi-{self.dataset}.csv'
         self.data = f'{self.data_dir}/data.csv'
+        self.fold = fold
+        self.poi_review_emb_path = f'{self.data_dir}/fold_{fold}/poi_review_emb.pt'
+        self.review_emb_path = f'{self.data_dir}/fold_{fold}/review_emb.pt'
 
         self.poi_vocab_file = f'{self.data_dir}/poi_vocab.txt'
-        print('poi vocab file', self.poi_vocab_file)
+        self.review_vocab_file = f'{self.data_dir}/review_vocab.txt'
+        #print('poi vocab file', self.poi_vocab_file)
         self.poi_vocab_size = wccount(self.poi_vocab_file)
+        self.review_vocab_size = wccount(self.review_vocab_file)
         self.residual_type='none'
         self.add_user_token = add_user_token
         self.num_user_token = 1
@@ -950,9 +956,9 @@ class BertLMCombinePredictionHead(nn.Module):
 
         # The output weights are the same as the input embeddings, but there is
         # an output-only bias for each token.
-        self.decoder = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
+        self.decoder = nn.Linear(config.hidden_size, config.poi_vocab_size, bias=False)
 
-        self.bias = nn.Parameter(torch.zeros(config.vocab_size))
+        self.bias = nn.Parameter(torch.zeros(config.poi_vocab_size))
 
         # Need a link between the two variables so that the bias is correctly resized with `resize_token_embeddings`
         self.decoder.bias = self.bias

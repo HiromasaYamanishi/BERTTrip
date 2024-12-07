@@ -25,12 +25,13 @@ class TripTrainer:
             self.model = self.model.from_pretrained(config.pretrained_model_dir)
         self.model_dir = config.pretrained_model_dir
         print('No of parameters: ', self.model.num_parameters(), config.hidden_size)
-
-        self.poi_tokenizer = BertTokenizer(vocab_file = config.poi_vocab_file, do_lower_case = False, do_basic_tokenize = False)
+        self.tokenizer = BertTokenizer(vocab_file = config.poi_vocab_file, do_lower_case = False, do_basic_tokenize = False)
+        #self.poi_tokenizer = BertTokenizer(vocab_file = config.poi_vocab_file, do_lower_case = False, do_basic_tokenize = False)
+        #self.review_tokenizer = BertTokenizer(vocab_file = config.review_vocab_file, do_lower_case = False, do_basic_tokenize = False)
 
         self.data_collator = DataCollatorForLanguageModeling(
             dataset = config.dataset,
-            tokenizer = self.poi_tokenizer,
+            tokenizer = self.tokenizer,
             mlm = True,
             mlm_probability = config.mlm_probability,
             config = config,
@@ -45,7 +46,7 @@ class TripTrainer:
         max_sequence_length = self.config.max_position_embeddings
         #print('dataset_file_path', dataset_file_path)
         dataset = LineByLineTextDataset(
-            tokenizer = self.poi_tokenizer,
+            tokenizer = self.tokenizer,
             file_path = dataset_file_path,
             block_size = max_sequence_length,
             config = self.model.config,

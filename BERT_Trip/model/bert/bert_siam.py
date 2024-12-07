@@ -133,7 +133,7 @@ class SiamBERT(BertForMaskedLM):
             config.vocab_size]`` (see ``input_ids`` docstring) Tokens with indices set to ``-100`` are ignored
             (masked), the loss is only computed for the tokens with labels in ``[0, ..., config.vocab_size]``
         """
-
+        #print('input_ids', input_ids)
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
         z1_representation, z1_pooled = self.bert(
             input_ids=input_ids,
@@ -148,7 +148,7 @@ class SiamBERT(BertForMaskedLM):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )[:2]
-        print('z1 pooled', z1_pooled.shape)
+        #print('z1 pooled', z1_pooled.shape)
         input_mask_expanded = attention_mask.unsqueeze(-1).expand(z1_representation.size()).float()
         sum_embeddings = torch.sum(z1_representation * input_mask_expanded, 1)
         sum_mask = input_mask_expanded.sum(1)
@@ -158,7 +158,7 @@ class SiamBERT(BertForMaskedLM):
         z1 = self.projector(z1_pooled)
         p1 = self.predictor(z1)
         head1 = self.cls(z1_representation)
-        print('z1', z1.shape, z1_pooled.shape)
+       # print('z1', z1.shape, z1_pooled.shape)
 
         if aug_input_ids != None:
             z2_representation, z2_pooled = self.bert(
@@ -171,7 +171,7 @@ class SiamBERT(BertForMaskedLM):
                 output_hidden_states=output_hidden_states,
                 return_dict=return_dict,
             )[:2]
-            print('z2 pooled', z2_pooled.shape)
+            #print('z2 pooled', z2_pooled.shape)
             input_mask_expanded = aug_attention_mask.unsqueeze(-1).expand(z2_representation.size()).float()
             sum_embeddings = torch.sum(z2_representation * input_mask_expanded, 1)
             sum_mask = input_mask_expanded.sum(1)
@@ -184,12 +184,12 @@ class SiamBERT(BertForMaskedLM):
 
         if labels is not None:
             loss_fct = CrossEntropyLoss()  # -100 index = padding token
-            print('labels', labels)
-            print('head1', head1.shape, head2.shape)
+            #print('labels', labels)
+            #print('head1', head1.shape, head2.shape)
             masked_lm_loss_z1 = loss_fct(head1.view(-1, self.config.vocab_size), labels.view(-1))
             masked_lm_loss_z2 = loss_fct(head2.view(-1, self.config.vocab_size), aug_labels.view(-1))
             mask_loss = (masked_lm_loss_z1 + masked_lm_loss_z2) / 2
-            print('losses', mask_loss, siamese_loss)
+            #print('losses', mask_loss, siamese_loss)
             loss = mask_loss + siamese_loss
         else:
             loss = None

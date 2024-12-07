@@ -48,7 +48,7 @@ class ResultManager:
                         print(f'#{run} {test_type:<11}: {model:<15} = best_f1: {fold_result.best_f1_result:.3f}')
         print("---------------------------------------------------")
         print()
-    def save_fold_result(self, model, config, dataset, fold, date, expected_size, mlm_probability, random_state, train_size, test_size):
+    def save_fold_result_(self, model, config, dataset, fold, date, expected_size, mlm_probability, random_state, train_size, test_size):
         for test_type in self.test_types:
             if model in self.result and fold in self.result[model] and test_type in self.result[model][fold]:
                 fold_result = self.result[model][fold][test_type]
@@ -62,8 +62,33 @@ class ResultManager:
                     "expected": y_true[i],
                     "predict": y_pred[i],
                     } for i in range(len(y_true))]
+                print('save filepath', file_path)
                 with open(file_path, 'a') as f:
                     f.write(f'{dataset}|{model_name}|{train_size}|{test_size}|{fold}|{date}|{random_state}|{results}\n')
+
+    def save_fold_result(self, model, config, dataset, fold, date, expected_size, mlm_probability, random_state, train_size, test_size):
+        for test_type in self.test_types:
+            if model in self.result and fold in self.result[model] and test_type in self.result[model][fold]:
+                fold_result = self.result[model][fold][test_type]
+                fold_test_results = fold_result.best_test_results
+                file_path = f'{self.result_dir}/{model}_{dataset}_{expected_size}_h{config.hidden_size}_l_{config.num_hidden_layers}_head{config.num_attention_heads}_{mlm_probability}_results.csv'
+                y_true = list(map(lambda x: x.y_true, fold_test_results.results))
+                y_pred = list(map(lambda x: x.y_pred, fold_test_results.results))
+                model_name = f'{model}_{expected_size}_{mlm_probability}_{test_type}'
+                assert(len(y_pred) == len(y_true))
+                
+                # f1スコアを計算
+                _, summary_df, _ = fold_test_results.calc_results()
+                f1_score = fold_result.best_f1_result
+                best_epoch = fold_result.best_f1_result_epoch
+                
+                results = [{
+                    "expected": y_true[i],
+                    "predict": y_pred[i],
+                } for i in range(len(y_true))]
+                
+                with open(file_path, 'a') as f:
+                    f.write(f'{dataset}|{model_name}|{train_size}|{test_size}|{fold}|{date}|{random_state}|{f1_score:.4f}|{best_epoch}|{results}\n')
 
 class TestResult:
     def __init__(self, y_true, y_pred):
@@ -94,8 +119,8 @@ class TestResults:
         #print('df', df.head())
         #print(len(df))
         count = 0
-        for t,p in zip(data['y_true'], data['y_pred']):
-            print(t, p)
+        # for t,p in zip(data['y_true'], data['y_pred']):
+        #     print(t, p)
         #     if len(t)!=len(p):
         #         print(count, t, p)
         #         count+=1
@@ -151,7 +176,6 @@ class Tester:
             i = 0
             cnt = 0
             size = len(lines)
-            print('lines', lines[:5])
             with torch.no_grad():
                 for line in lines:
                     pois = self.format_line(model.config, line)
@@ -209,8 +233,8 @@ class Tester:
                 end_index = (y_true == sep_token_id).nonzero()[0]
                 y_true = self.poi_tokenizer.convert_ids_to_tokens(y_true[start_index:end_index])
                 y_pred = self.poi_tokenizer.convert_ids_to_tokens(y_pred[start_index:end_index])
-                if len(y_true) < 3 or len(y_pred) < 3:
-                    print(y_true, y_pred)
+                # if len(y_true) < 3 or len(y_pred) < 3:
+                #     print(y_true, y_pred)
                 results.append(TestResult(y_true, y_pred))
 
         return results
@@ -235,6 +259,7 @@ class Tester:
             masked = masked & masked2
             if len((masked2 == True).nonzero()) == 0:
                 break
+            #print('inputs', inputs)
             output = model(**inputs)
             logits = output.logits
             indices = torch.argmax(logits, dim = -1)

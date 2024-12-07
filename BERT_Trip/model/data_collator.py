@@ -103,7 +103,7 @@ class DataCollatorForLanguageModeling:
                 del batch['aug_input_ids']
             if 'aug_labels' in batch:
                 del batch['aug_labels']
-        print('call batch', batch.keys())
+        # print('call batch', batch.keys())
         return batch
 
     def data_agumentation(self, labels, special_tokens_mask, mln_probability = 0.15):

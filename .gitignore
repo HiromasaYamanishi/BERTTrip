@@ -1,5 +1,8 @@
 results/*
-./BERT_Trip/data
-./BERT_Trip_Review/data
-./BERT_Trip/wandb/
-./BERT_Trip_Review/wandb/
+BERT_Trip/data
+BERT_Trip_Review/data
+BERT_Trip/wandb/
+BERT_Trip_Review/wandb/
+BERT_Trip/runs/
+BERT_Trip_Review/runs/
+BERT_Trip_Review/checkpoint/

@@ -18,6 +18,7 @@ import torch
 from torch import nn
 from torch.nn import CrossEntropyLoss
 from model.bert.bert_model import BertForMaskedLM, BertModel, BertOnlyMLMHead, MaskedLMOutput, BertOnlyCombineMLMHead
+from model.bert.bert_temporal import BertTemporalModel
 import torch.nn.functional as F
 import torch
 import torch.nn as nn
@@ -68,9 +69,10 @@ class ReviewTripBERT(BertForMaskedLM):
         self.config = config
         
         # ベースとなる3つのBERTモデル
-        self.bert = BertModel(config, add_pooling_layer=True)  # 行動特徴量用
-        self.review_bert = BertModel(config, add_pooling_layer=True)  # レビュー列特徴量用
-        self.target_bert = BertModel(config, add_pooling_layer=True)  # ターゲットレビュー用
+        #print('config', config)
+        self.bert = BertTemporalModel(config, add_pooling_layer=True, mode='poi', load_pretrain=False)  # 行動特徴量用
+        self.review_bert = BertTemporalModel(config, add_pooling_layer=True, mode='poi', load_pretrain=True)  # レビュー列特徴量用
+        self.target_bert = BertTemporalModel(config, add_pooling_layer=True, mode='review', load_pretrain=True)  # ターゲットレビュー用
         
         # Attention層の定義
         self.review_attention = nn.MultiheadAttention(
@@ -132,6 +134,12 @@ class ReviewTripBERT(BertForMaskedLM):
         aug_input_ids=None,
         aug_labels= None,
         aug_attention_mask=None,
+        review_ids=None,
+        review_labels=None,
+        review_attention_mask=None,
+        aug_review_ids=None,
+        aug_review_labels=None,
+        aug_review_attention_mask=None,
         token_type_ids=None,
         position_ids=None,
         head_mask=None,
@@ -149,37 +157,48 @@ class ReviewTripBERT(BertForMaskedLM):
         aug_timestamps=None,
         pois_triplet=None,
         user_ids=None,
+        stage=None
     ):
         if input_ids[0, -1].item()==10000:
-            stage='pretrain'
+            stage = 'pretrain'
+            input_ids = input_ids[:, :-1].long()
+        elif input_ids[0, -1].item()==99999:
+            stage='finetune'
+            input_ids = input_ids[:, :-1].long()
         else:
             stage='finetune'
-
-        input_ids = input_ids[:, :-1].long()
-        print(
-        'inputids', input_ids,
-        'labels', labels,
-        attention_mask,
-        aug_input_ids,
-        aug_labels,
-        aug_attention_mask,
-        token_type_ids,
-        position_ids,
-        head_mask,
-        inputs_embeds,
-        encoder_hidden_states,
-        encoder_attention_mask,
-        output_attentions,
-        output_hidden_states,
-        return_dict,
-        target_index,
-        time_ids,
-        aug_time_ids,
-        traj_ids,
-        timestamps,
-        aug_timestamps,
-        pois_triplet,
-        user_ids,)
+        # print('stage', stage)
+        # print(
+        # 'inputids', input_ids,
+        # 'labels', labels,
+        # attention_mask,
+        # aug_input_ids,
+        # aug_labels,
+        # aug_attention_mask,
+        # review_ids,
+        # review_labels,
+        # review_attention_mask,
+        # aug_review_ids,
+        # aug_review_labels,
+        # aug_review_attention_mask,
+        # token_type_ids,
+        # position_ids,
+        # head_mask,
+        # inputs_embeds,
+        # encoder_hidden_states,
+        # encoder_attention_mask,
+        # output_attentions,
+        # output_hidden_states,
+        # return_dict,
+        # target_index,
+        # time_ids,
+        # aug_time_ids,
+        # traj_ids,
+        # timestamps,
+        # aug_timestamps,
+        # pois_triplet,
+        # user_ids,
+        # stage)
 
         if stage == "pretrain":
             return self.forward_pretrain(
@@ -189,6 +208,12 @@ class ReviewTripBERT(BertForMaskedLM):
         aug_input_ids=aug_input_ids,
         aug_labels= aug_labels,
         aug_attention_mask=aug_attention_mask,
+        review_ids = review_ids,
+        review_labels=review_labels,
+        review_attention_mask=review_attention_mask,
+        aug_review_ids=aug_review_ids,
+        aug_review_labels= aug_review_labels,
+        aug_review_attention_mask=aug_review_attention_mask,
         token_type_ids=token_type_ids,
         position_ids=position_ids,
         head_mask=head_mask,
@@ -215,6 +240,12 @@ class ReviewTripBERT(BertForMaskedLM):
         aug_input_ids=aug_input_ids,
         aug_labels= aug_labels,
         aug_attention_mask=aug_attention_mask,
+        review_ids = review_ids,
+        review_labels=review_labels,
+        review_attention_mask=review_attention_mask,
+        aug_review_ids=aug_review_ids,
+        aug_review_labels= aug_review_labels,
+        aug_review_attention_mask=aug_review_attention_mask,
         token_type_ids=token_type_ids,
         position_ids=position_ids,
         head_mask=head_mask,
@@ -279,6 +310,12 @@ class ReviewTripBERT(BertForMaskedLM):
         aug_input_ids=None,
         aug_labels= None,
         aug_attention_mask=None,
+        review_ids = None,
+        review_labels=None,
+        review_attention_mask=None,
+        aug_review_ids=None,
+        aug_review_labels= None,
+        aug_review_attention_mask=None,
         token_type_ids=None,
         position_ids=None,
         head_mask=None,
@@ -297,6 +334,8 @@ class ReviewTripBERT(BertForMaskedLM):
         pois_triplet=None,
         user_ids=None,
     ):
+        #print('input_ids', input_ids)
+        #print('aug input_ids', aug_input_ids)
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
         z1_context_representation, z1_context_pooled = self.bert(
             input_ids=input_ids,
@@ -324,7 +363,7 @@ class ReviewTripBERT(BertForMaskedLM):
 
 
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
-        z1_review_representation, z1_review_pooled = self.bert(
+        z1_review_representation, z1_review_pooled = self.review_bert(
             input_ids=input_ids,
             attention_mask=attention_mask,
             position_ids=position_ids,
@@ -380,7 +419,7 @@ class ReviewTripBERT(BertForMaskedLM):
 
 
             return_dict = return_dict if return_dict is not None else self.config.use_return_dict
-            z2_review_representation, z2_review_pooled = self.bert(
+            z2_review_representation, z2_review_pooled = self.review_bert(
                 input_ids=aug_input_ids,
                 attention_mask=aug_attention_mask,
                 position_ids=position_ids,
@@ -413,14 +452,18 @@ class ReviewTripBERT(BertForMaskedLM):
             loss_fct = CrossEntropyLoss()  # -100 index = padding token
             #print('labels', labels)
             #print('head1', head1.shape, head2.shape)
-            masked_lm_loss_z1 = loss_fct(head1.view(-1, self.config.vocab_size), labels.view(-1))
-            masked_lm_loss_z2 = loss_fct(head2.view(-1, self.config.vocab_size), aug_labels.view(-1))
+            #print('labels', labels)
+            #print('aug labels', aug_labels)
+            #print('input', input_ids[0],'head1', torch.argmax(head1, dim=-1)[0], head1.shape, labels[0])
+            #print('head2', torch.argmax(head2, dim=-1))
+            masked_lm_loss_z1 = loss_fct(head1.view(-1, self.config.poi_vocab_size), labels.view(-1))
+            masked_lm_loss_z2 = loss_fct(head2.view(-1, self.config.poi_vocab_size), aug_labels.view(-1))
             mask_loss = (masked_lm_loss_z1 + masked_lm_loss_z2) / 2
             #print('losses', mask_loss, siamese_loss)
             loss = mask_loss + siamese_loss
         else:
             loss = None
-
+        #print('finetune loss', loss)
         return MaskedLMOutput(
             loss=loss,
             logits=head1,
@@ -434,6 +477,12 @@ class ReviewTripBERT(BertForMaskedLM):
         aug_input_ids=None,
         aug_labels= None,
         aug_attention_mask=None,
+        review_ids = None,
+        review_labels=None,
+        review_attention_mask=None,
+        aug_review_ids=None,
+        aug_review_labels= None,
+        aug_review_attention_mask=None,
         token_type_ids=None,
         position_ids=None,
         head_mask=None,
@@ -499,8 +548,8 @@ class ReviewTripBERT(BertForMaskedLM):
         #     attention_mask=attention_mask
         # ).last_hidden_state
         z_target_representation, z_target_pooled = self.target_bert(
-            input_ids=input_ids,
-            attention_mask=attention_mask,
+            input_ids=review_ids,
+            attention_mask=review_attention_mask,
             position_ids=position_ids,
             time_ids=time_ids,
             aug_time_ids=aug_time_ids,
@@ -517,24 +566,6 @@ class ReviewTripBERT(BertForMaskedLM):
         sum_mask = torch.clamp(sum_mask, min = 1e-9)
         z_target_pooled = sum_embeddings / sum_mask
         
-        z_review_representation, z_review_pooled = self.review_bert(
-            input_ids=input_ids,
-            attention_mask=attention_mask,
-            position_ids=position_ids,
-            time_ids=time_ids,
-            aug_time_ids=aug_time_ids,
-            head_mask=head_mask,
-            encoder_hidden_states=encoder_hidden_states,
-            encoder_attention_mask=encoder_attention_mask,
-            output_attentions=output_attentions,
-            output_hidden_states=output_hidden_states,
-            return_dict=return_dict,
-        )[:2]
-        input_mask_expanded = attention_mask.unsqueeze(-1).expand(z_review_representation.size()).float()
-        sum_embeddings = torch.sum(z_review_representation * input_mask_expanded, 1)
-        sum_mask = input_mask_expanded.sum(1)
-        sum_mask = torch.clamp(sum_mask, min = 1e-9)
-        z_review_pooled = sum_embeddings / sum_mask
         
         # 特徴量の投影
         z_context_proj = self.context_projector(z_context_pooled)
@@ -546,10 +577,11 @@ class ReviewTripBERT(BertForMaskedLM):
         # z_target_proj = self.projector(z_target.mean(dim=1))
         
         # Contrastive Loss の計算
-        loss_context = self.compute_contrastive_loss(z_target_proj, z_context_proj, z_context_proj)
-        loss_review = self.compute_contrastive_loss(z_target_proj, z_review_proj, z_review_proj)
+        loss_context = self.compute_contrastive_loss(z_context_proj, z_target_proj, z_target_proj)
+        loss_review = self.compute_contrastive_loss(z_review_proj, z_target_proj, z_target_proj)
         
         loss = loss_context + loss_review
+        # print('pretrain loss', loss)
         return {
             'loss': loss, #loss_context + loss_review,
             'z_context': z_context_proj,
@@ -659,12 +691,14 @@ class SiamBERT(BertForMaskedLM):
 
         if labels is not None:
             loss_fct = CrossEntropyLoss()  # -100 index = padding token
-            print('labels', labels)
-            print('head1', head1.shape, head2.shape)
+            #print('labels', labels)
+            #print('head1', head1.shape, head2.shape)
             masked_lm_loss_z1 = loss_fct(head1.view(-1, self.config.vocab_size), labels.view(-1))
             masked_lm_loss_z2 = loss_fct(head2.view(-1, self.config.vocab_size), aug_labels.view(-1))
+            #print('head1', torch.argmax(head1, dim = -1))
+            #print('head2', torch.argmax(head2, dim = -1))
             mask_loss = (masked_lm_loss_z1 + masked_lm_loss_z2) / 2
-            print('losses', mask_loss, siamese_loss)
+            #print('losses', mask_loss, siamese_loss)
             loss = mask_loss + siamese_loss
         else:
             loss = None

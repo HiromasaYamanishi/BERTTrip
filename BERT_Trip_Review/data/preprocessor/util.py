@@ -43,9 +43,11 @@ def filter_trajectory(trajectories):
     data = {}
     for i in range(len(trajectories)):
         trajectory = trajectories[i]
+        #if i<5:
+        #    print(trajectory)
         if(int(trajectory[6]) >= 3):
             id = "{}-{}".format(trajectory[0], trajectory[1])
-            data.setdefault(id,[]).append([trajectory[2], trajectory[3], trajectory[4]]) #userID+trajID
+            data.setdefault(id,[]).append([trajectory[2], trajectory[3], trajectory[4], trajectory[8]]) #userID+trajID
     #print("...")
     #print(data)
     return data
